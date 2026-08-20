@@ -1,8 +1,8 @@
 package com.kereis.tahore.documentprocessing.domain.controle;
 
-import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.ASSURE_DATE_NAISSANCE;
-import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.ASSURE_NOM;
-import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.ASSURE_PRENOM;
+import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.DATE_NAISSANCE;
+import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.NOM;
+import static com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction.PRENOM;
 
 import com.kereis.tahore.documentprocessing.domain.model.DocumentEntrant;
 import com.kereis.tahore.documentprocessing.domain.model.DonneesExtraites;
@@ -12,29 +12,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Gabarit d'un controle metier, a decliner pour les 80 assertions des 14 fiches.
+ * RG-2.1.1 — identite de l'assure sur le bulletin d'adhesion.
  *
- * <p>Trois proprietes rendent ces controles ecrivables et testables aujourd'hui, avant
- * que les points ouverts ne soient tranches.
- *
- * <ol>
- *   <li>Ils ne dependent que du domaine : ni Spring, ni forme du DMS, ni client HTTP. Un
- *       test est une construction d'objet et une assertion.
- *   <li>Ils lisent les donnees par {@link
- *       com.kereis.tahore.documentprocessing.domain.model.CheminsExtraction}, jamais par
- *       un chemin en litteral. Un renommage cote Delos ne touche qu'une classe.
- *   <li>Ils retournent un verdict explicite plutot que de lever une exception : un lot
- *       incomplet n'est pas une erreur technique, c'est un resultat metier.
- * </ol>
+ * <p>Gabarit des 80 assertions des 14 fiches. Un champ compte comme presente s'il existe
+ * <b>et</b> si sa confiance atteint le seuil : une valeur lue a 0,42 n'est pas une valeur
+ * sur laquelle on engage un dossier.
  */
 public final class ControleIdentiteAssure {
 
-    /** Identifiant de la regle au referentiel des fiches de controle. */
     public static final String REGLE = "RG-2.1.1";
+    private static final List<String> REQUIS = List.of(NOM, PRENOM, DATE_NAISSANCE);
 
     private ControleIdentiteAssure() {}
 
-    public static Verdict verifier(DocumentEntrant document) {
+    public static Verdict verifier(DocumentEntrant document, double seuil) {
         if (document.type() != TypeDocument.BULLETIN_ADHESION) {
             return Verdict.nonApplicable(REGLE);
         }
@@ -42,23 +33,17 @@ public final class ControleIdentiteAssure {
         if (donnees.isEmpty()) {
             return Verdict.enEchec(REGLE, List.of("aucune donnee extraite"));
         }
-
-        List<String> manquants = new ArrayList<>();
-        for (String chemin : List.of(ASSURE_NOM, ASSURE_PRENOM, ASSURE_DATE_NAISSANCE)) {
-            if (donnees.orElseThrow().champ(chemin).isEmpty()) {
-                manquants.add(chemin);
+        List<String> motifs = new ArrayList<>();
+        for (String champ : REQUIS) {
+            if (donnees.orElseThrow().champ(champ).isEmpty()) {
+                motifs.add(champ + " : absent");
+            } else if (!donnees.orElseThrow().exploitable(champ, seuil)) {
+                motifs.add(champ + " : confiance insuffisante");
             }
         }
-        return manquants.isEmpty() ? Verdict.conforme(REGLE) : Verdict.enEchec(REGLE, manquants);
+        return motifs.isEmpty() ? Verdict.conforme(REGLE) : Verdict.enEchec(REGLE, motifs);
     }
 
-    /**
-     * Resultat d'un controle.
-     *
-     * @param regle identifiant de la regle appliquee
-     * @param etat conforme, en echec, ou non applicable au document soumis
-     * @param motifs chemins ou libelles expliquant un echec, vide sinon
-     */
     public record Verdict(String regle, Etat etat, List<String> motifs) {
 
         public enum Etat {

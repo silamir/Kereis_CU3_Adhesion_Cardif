@@ -25,7 +25,7 @@ import org.springframework.web.client.RestClient;
 
 /**
  * Appel DMS simule de bout en bout : le DMS est remplace par WireMock, qui renvoie une
- * fixture de reponse 200 portant les extractions Delos dans {@code metadata}.
+ * fixture de reponse 200 portant les champs extraits par Delos dans {@code metadata}.
  *
  * <p>Ce test couvre ce qu'un test lisant la fixture depuis le classpath ne peut pas
  * couvrir : la requete reellement emise. Trois pieges du contrat DMS ne se voient que
@@ -75,7 +75,7 @@ class DmsLotRepositoryHttpTest {
     }
 
     @Test
-    @DisplayName("Un lot nominal remonte en un lot de cinq documents, types lus dans metadata.delos")
+    @DisplayName("Un lot nominal remonte en un lot de cinq documents, types lus dans indexation.nature")
     void lot_nominal_complet() throws Exception {
         dmsRepond("01-lot-nominal");
 
@@ -134,18 +134,58 @@ class DmsLotRepositoryHttpTest {
     }
 
     @Test
-    @DisplayName("Les donnees extraites sont lues sous metadata.delos, avec leur confiance")
-    void extraction_lue_depuis_metadata() throws Exception {
-        dmsRepond("03-lot-confiance-faible");
+    @DisplayName("Chaque champ de metadata est lu avec sa confiance propre")
+    void confiance_lue_champ_par_champ() throws Exception {
+        dmsRepond("01-lot-nominal");
 
-        DocumentEntrant bulletin = depot.lotsEnAttente().getFirst().documents().stream()
+        var donnees = depot.lotsEnAttente().getFirst().documents().stream()
                 .filter(d -> d.type() == TypeDocument.BULLETIN_ADHESION)
                 .findFirst()
+                .orElseThrow()
+                .donneesExtraites()
                 .orElseThrow();
 
-        assertThat(bulletin.donneesExtraites()).isPresent();
-        assertThat(bulletin.donneesExtraites().orElseThrow().confianceGlobale()).isEqualTo(0.41d);
-        assertThat(bulletin.donneesExtraites().orElseThrow().champ("assure.nom")).isPresent();
+        // Le telephone est le champ le moins sur de la fixture, le nom l'un des plus surs :
+        // une confiance unique par document ne pourrait pas exprimer cet ecart.
+        assertThat(donnees.champ("telephone").orElseThrow().confiance()).isEqualTo(0.70d);
+        assertThat(donnees.champ("nom").orElseThrow().confiance()).isGreaterThan(0.90d);
+        assertThat(donnees.champsSousSeuil(0.90d)).contains("telephone", "email", "adresse");
+        assertThat(donnees.exploitable("nom", 0.90d)).isTrue();
+        assertThat(donnees.exploitable("telephone", 0.90d)).isFalse();
+    }
+
+    @Test
+    @DisplayName("Un champ degrade par le scenario passe sous le seuil, les autres non")
+    void scenario_de_confiance_degradee() throws Exception {
+        dmsRepond("03-lot-confiance-faible");
+
+        var donnees = depot.lotsEnAttente().getFirst().documents().stream()
+                .filter(d -> d.type() == TypeDocument.BULLETIN_ADHESION)
+                .findFirst()
+                .orElseThrow()
+                .donneesExtraites()
+                .orElseThrow();
+
+        assertThat(donnees.champ("nom").orElseThrow().confiance()).isEqualTo(0.42d);
+        assertThat(donnees.champsSousSeuil(0.90d)).contains("nom", "prenom", "dateNaissance");
+        assertThat(donnees.confianceMinimale()).contains(0.42d);
+    }
+
+    @Test
+    @DisplayName("Un groupe de champs imbrique est aplati en nom pointe")
+    void groupe_aplati() throws Exception {
+        dmsRepond("01-lot-nominal");
+
+        var donnees = depot.lotsEnAttente().getFirst().documents().stream()
+                .filter(d -> d.type() == TypeDocument.BULLETIN_ADHESION)
+                .findFirst()
+                .orElseThrow()
+                .donneesExtraites()
+                .orElseThrow();
+
+        // beneficiaireAdresse porte plusieurs sous-champs : chacun garde sa confiance.
+        assertThat(donnees.champs().keySet()).allSatisfy(nom -> assertThat(nom).doesNotContain("{"));
+        assertThat(donnees.champs()).isNotEmpty();
     }
 
     @Test

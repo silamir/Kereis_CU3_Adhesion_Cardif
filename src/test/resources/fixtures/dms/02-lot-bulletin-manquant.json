@@ -3,13 +3,13 @@
   "totalCount": 4,
   "_links": {
     "first": {
-      "href": "/private/secure/input/documents?page=0",
+      "href": "/private/secure/input/documents?offset=0",
       "method": "GET"
     },
     "previous": null,
     "next": null,
     "last": {
-      "href": "/private/secure/input/documents?page=0",
+      "href": "/private/secure/input/documents?offset=0",
       "method": "GET"
     }
   },
@@ -136,32 +136,33 @@
       },
       "description": "RECUEIL_CONSENTEMENT",
       "metadata": {
-        "delos": {
-          "documentUuid": "1b4e28ba-2fa1-11d2-883f-0016d3cca427",
-          "documentType": "RECUEIL_CONSENTEMENT",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "recueil": {
-              "present": true
-            },
-            "consentement": {
-              "donneesSante": true
-            },
-            "signatures": {
-              "assure": {
-                "present": true
-              },
-              "dateSignature": "2026-08-12"
-            }
-          },
-          "anomalies": []
+        "presentRecueil": {
+          "value": true,
+          "confidence": 0.984
+        },
+        "consentementDonneesSante": {
+          "value": true,
+          "confidence": 0.929
+        },
+        "signatureAssure": {
+          "value": true,
+          "confidence": 0.99
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "nom": {
+          "value": "Dupont",
+          "confidence": 0.978
+        },
+        "prenom": {
+          "value": "Camille",
+          "confidence": 0.939
+        },
+        "dateNaissance": {
+          "value": "1985-03-12",
+          "confidence": 0.925
         }
       },
       "lock": {
@@ -422,27 +423,37 @@
       },
       "description": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
       "metadata": {
-        "delos": {
-          "documentUuid": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-          "documentType": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 3,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "questionnaire": {
-              "type": "QSS_SIMPLIFIE",
-              "emetteur": "CONSEILLER_BNP",
-              "manuscrit": true,
-              "recueilConsentementJoint": true,
-              "reponsePositivePresente": true
-            }
-          },
-          "anomalies": []
+        "type": {
+          "value": "QSS_SIMPLIFIE",
+          "confidence": 0.984
+        },
+        "emetteur": {
+          "value": "CONSEILLER_BNP",
+          "confidence": 0.941
+        },
+        "manuscrit": {
+          "value": true,
+          "confidence": 0.99
+        },
+        "recueilConsentementJoint": {
+          "value": true,
+          "confidence": 0.952
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "present": {
+          "value": true,
+          "confidence": 0.934
+        },
+        "paraphesToutesPages": {
+          "value": true,
+          "confidence": 0.929
+        },
+        "allReponsesNegative": {
+          "value": true,
+          "confidence": 0.972
         }
       },
       "lock": {
@@ -703,26 +714,33 @@
       },
       "description": "MANDAT_SEPA",
       "metadata": {
-        "delos": {
-          "documentUuid": "9c858901-8a57-4791-81fe-4c455b099bc9",
-          "documentType": "MANDAT_SEPA",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "banque": {
-              "iban": "FR7630006000011234567890189",
-              "titulaire": "Camille MARTIN",
-              "adresseTitulaire": "VALEUR_TEST",
-              "bic": "BNPAFRPPXXX"
-            }
-          },
-          "anomalies": []
+        "iban": {
+          "value": "FR7630006000011234567890189",
+          "confidence": 0.938
+        },
+        "titulaire": {
+          "value": "Camille Dupont",
+          "confidence": 0.962
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "present": {
+          "value": true,
+          "confidence": 0.934
+        },
+        "— ne pas extraire —": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.942
+        },
+        "adresseTitulaire": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.985
+        },
+        "bic": {
+          "value": "BNPAFRPPXXX",
+          "confidence": 0.976
         }
       },
       "lock": {
@@ -983,27 +1001,25 @@
       },
       "description": "RIB",
       "metadata": {
-        "delos": {
-          "documentUuid": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
-          "documentType": "RIB",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "banque": {
-              "iban": "FR7630006000011234567890189",
-              "bic": "BNPAFRPPXXX",
-              "titulaire": "Camille MARTIN",
-              "typeCompte": "PERSONNEL",
-              "adresseTitulaire": "VALEUR_TEST"
-            }
-          },
-          "anomalies": []
+        "iban": {
+          "value": "FR7630006000011234567890189",
+          "confidence": 0.938
+        },
+        "bic": {
+          "value": "BNPAFRPPXXX",
+          "confidence": 0.976
+        },
+        "titulaire": {
+          "value": "Camille Dupont",
+          "confidence": 0.962
+        },
+        "typeCompte": {
+          "value": "PERSONNEL",
+          "confidence": 0.92
+        },
+        "adresseTitulaire": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.985
         }
       },
       "lock": {

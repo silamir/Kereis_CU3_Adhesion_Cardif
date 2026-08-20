@@ -1,7 +1,6 @@
 package com.kereis.tahore.documentprocessing.infrastructure.dms;
 
 import com.kereis.tahore.documentprocessing.domain.model.DocumentEntrant;
-import com.kereis.tahore.documentprocessing.domain.model.DonneesExtraites;
 import com.kereis.tahore.documentprocessing.domain.model.Lot;
 import com.kereis.tahore.documentprocessing.domain.model.TypeDocument;
 import com.kereis.tahore.documentprocessing.domain.port.LotRepository;
@@ -19,21 +18,12 @@ import org.springframework.web.client.RestClient;
  * Adaptateur DMS : traduit la reponse de
  * {@code GET /private/secure/input/documents} en lots du domaine.
  *
- * <p>C'est le seul endroit du module qui connait la forme du DMS. En
- * particulier, la convention de cles de {@code metadata} — encore inconnue
- * cote Kereis — est isolee ici : quand elle sera fixee, seule cette classe
- * changera.
- *
- * <p>La lecture se fait volontairement en {@code Map} et non via des DTO
- * generes : tant que la convention de {@code metadata} n'est pas arretee, une
- * structure typee serait a refaire. Les DTO generes par
- * {@code mvn -P generate-clients} prendront le relais pour le reste.
+ * <p>C'est le seul endroit du module qui connaisse la forme du DMS. La lecture se fait en
+ * {@code Map} plutot que via des DTO generes : tant que la convention de cles de
+ * {@code metadata} n'est pas arretee, une structure typee serait a refaire.
  */
 @Repository
 public class DmsLotRepository implements LotRepository {
-
-    /** Cle sous laquelle l'extraction Delos est deposee dans metadata. */
-    static final String CLE_EXTRACTION = "delos";
 
     private static final ParameterizedTypeReference<Map<String, Object>> REPONSE =
             new ParameterizedTypeReference<>() {};
@@ -55,13 +45,13 @@ public class DmsLotRepository implements LotRepository {
      *   <li><b>{@code extension=reception} est obligatoire.</b> {@code reception} est une
      *       sous-ressource, et le service n'en renvoie aucune par defaut. Sans ce parametre,
      *       {@code reception.id} est absent et le regroupement en lots ne peut pas se faire.
-     *       {@code metadata} en revanche est une propriete, pas une sous-ressource : l'extraction
-     *       Delos arrive donc sans rien demander.
-     *   <li><b>Le filtrage se fait cote serveur.</b> Etat de traitement, absence de reference et
-     *       domaine sont des parametres de requete : autant de documents qui ne traversent jamais
-     *       le reseau. Filtrer cote client serait payer le transfert pour rien.
-     *   <li><b>{@code limit} vaut 20 par defaut.</b> Un lot de cinq pieces passe, mais un scan
-     *       large serait tronque silencieusement. La valeur est donc explicite et configurable.
+     *       {@code metadata} en revanche est une propriete : les champs extraits arrivent sans
+     *       rien demander.
+     *   <li><b>Le filtrage se fait cote serveur.</b> Etat de traitement et absence de reference
+     *       sont des parametres de requete : autant de documents qui ne traversent jamais le
+     *       reseau.
+     *   <li><b>{@code limit} vaut 20 par defaut.</b> Un scan large serait tronque
+     *       silencieusement. La valeur est donc explicite et configurable.
      * </ol>
      */
     @Override
@@ -107,11 +97,11 @@ public class DmsLotRepository implements LotRepository {
         return lots;
     }
 
+    /** Renvoie {@code null} si le document sort du perimetre CU#3. */
     static DocumentEntrant versDomaine(Map<String, Object> doc) {
-        DonneesExtraites extraction = extraction(doc);
-        TypeDocument type = type(extraction, doc);
+        TypeDocument type = type(doc);
         if (type == null) {
-            return null; // document hors perimetre CU#3
+            return null;
         }
         return new DocumentEntrant(
                 texte(doc, "id"),
@@ -122,35 +112,26 @@ public class DmsLotRepository implements LotRepository {
                 booleen(sousObjet(doc, "permissions"), "medicalConfidentiality"),
                 Optional.ofNullable(texte(sousObjet(doc, "binding"), "reference"))
                         .filter(r -> !r.isBlank()),
-                Optional.ofNullable(extraction));
+                ExtractionDms.lire(sousObjet(doc, "metadata")));
     }
 
-    private static DonneesExtraites extraction(Map<String, Object> doc) {
-        Map<String, Object> delos = sousObjet(sousObjet(doc, "metadata"), CLE_EXTRACTION);
-        if (delos.isEmpty()) {
-            return null;
+    /**
+     * Le type vient de {@code indexation.nature.id}, referentiel du DMS. Repli sur le
+     * libelle de la nature puis sur {@code description} tant que le referentiel complet
+     * n'est pas obtenu.
+     */
+    private static TypeDocument type(Map<String, Object> doc) {
+        Map<String, Object> nature = sousObjet(sousObjet(doc, "indexation"), "nature");
+        Object id = nature.get("id");
+        if (id instanceof Number n) {
+            Optional<TypeDocument> parNature = TypeDocument.parNature(n.intValue());
+            if (parNature.isPresent()) {
+                return parNature.orElseThrow();
+            }
         }
-        Map<String, Object> meta = sousObjet(delos, "extraction");
-        Object confiance = meta.get("globalConfidence");
-        return new DonneesExtraites(
-                confiance instanceof Number n ? n.doubleValue() : 0d,
-                booleen(meta, "handwritten"),
-                sousObjet(delos, "fields"));
-    }
-
-    private static TypeDocument type(DonneesExtraites extraction, Map<String, Object> doc) {
-        // Le documentType de l'extraction fait foi. A defaut, indexation.nature,
-        // dont le referentiel reste a obtenir cote DMS.
-        Map<String, Object> delos = sousObjet(sousObjet(doc, "metadata"), CLE_EXTRACTION);
-        String brut = texte(delos, "documentType");
-        if (brut == null) {
-            return null;
-        }
-        try {
-            return TypeDocument.valueOf(brut);
-        } catch (IllegalArgumentException horsPerimetre) {
-            return null;
-        }
+        return TypeDocument.parLibelle(texte(nature, "name"))
+                .or(() -> TypeDocument.parLibelle(texte(doc, "description")))
+                .orElse(null);
     }
 
     @SuppressWarnings("unchecked")

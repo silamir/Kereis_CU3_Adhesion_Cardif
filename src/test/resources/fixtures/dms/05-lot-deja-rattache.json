@@ -3,13 +3,13 @@
   "totalCount": 5,
   "_links": {
     "first": {
-      "href": "/private/secure/input/documents?page=0",
+      "href": "/private/secure/input/documents?offset=0",
       "method": "GET"
     },
     "previous": null,
     "next": null,
     "last": {
-      "href": "/private/secure/input/documents?page=0",
+      "href": "/private/secure/input/documents?offset=0",
       "method": "GET"
     }
   },
@@ -136,110 +136,201 @@
       },
       "description": "BULLETIN_ADHESION",
       "metadata": {
-        "delos": {
-          "documentUuid": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
-          "documentType": "BULLETIN_ADHESION",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "contrat": {
-              "typeProduit": "A_OBTENIR",
-              "conventionMadelin": "CONVENTION_2289_NON_MADELIN",
-              "segmentation": "STANDARD"
-            },
-            "assure": {
-              "civilite": "M",
-              "prenom": "Camille",
-              "nom": "MARTIN",
-              "dateNaissance": "1985-04-17",
-              "lieuNaissance": {
-                "commune": "LYON",
-                "departement": "69",
-                "pays": "FRANCE"
-              },
-              "adresse": {
-                "ligne1": "VALEUR_TEST",
-                "pays": "FRANCE",
-                "codePostal": "69002",
-                "commune": "LYON"
-              },
-              "contact": {
-                "telephone": "+33600000000",
-                "email": "camille.martin@example.invalid"
-              },
-              "nationalite": "VALEUR_TEST",
-              "activite": {
-                "profession": "Consultant",
-                "categorieSocioProfessionnelle": "A_OBTENIR",
-                "sansActiviteRemuneree": true
-              },
-              "revenus": {
-                "netFiscalN1": 150000.0,
-                "netFiscalN2": 150000.0
-              },
-              "sante": {
-                "fumeur": true,
-                "risqueSejour": true
-              }
-            },
-            "garanties": {
-              "codeFormule": "FORMULE_1",
-              "capitalDeces": 150000.0,
-              "modaliteVersement": "CAPITAL",
-              "dureeRenteAnnees": 1,
-              "options": {
-                "decesDegressif": true,
-                "doublementDecesAccidentel": true,
-                "fraisProfessionnelsItt": true
-              }
-            },
-            "signatures": {
-              "dateSignature": "2026-08-12",
-              "paraphesAssure": {
-                "present": true
-              },
-              "personneHabilitee": {
-                "present": true
-              },
-              "assure": {
-                "present": true
-              }
-            },
-            "beneficiairesDeces": {
-              "typeClause": "DESIGNES",
-              "designes": [
-                {
-                  "civilite": "M",
-                  "nom": "MARTIN",
-                  "nomNaissance": "BERNARD",
-                  "prenom": "Camille",
-                  "adresse": "VALEUR_TEST",
-                  "partPourcentage": 100.0
-                }
-              ]
-            },
-            "souscripteur": {
-              "identiqueAssure": true
-            },
-            "reglement": {
-              "periodicite": "MENSUELLE"
-            },
-            "distribution": {
-              "codeAgence": "VALEUR_TEST"
-            },
-            "conseiller": {
-              "email": "camille.martin@example.invalid",
-              "nom": "MARTIN",
-              "prenom": "Camille"
-            }
-          },
-          "anomalies": []
+        "typeProduit": {
+          "value": "A_DEFINIR_KEREIS",
+          "confidence": 0.979
+        },
+        "civilite": {
+          "value": "M",
+          "confidence": 0.966
+        },
+        "prenom": {
+          "value": "Camille",
+          "confidence": 0.939
+        },
+        "nom": {
+          "value": "Dupont",
+          "confidence": 0.978
+        },
+        "dateNaissance": {
+          "value": "1985-03-12",
+          "confidence": 0.925
+        },
+        "commune": {
+          "value": "Soultz-sous-Forets",
+          "confidence": 0.993
+        },
+        "departement": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.92
+        },
+        "pays": {
+          "value": "France",
+          "confidence": 0.976
+        },
+        "adresse": {
+          "value": "12 rue des Lilas",
+          "confidence": 0.77
+        },
+        "codePostal": {
+          "value": "67250",
+          "confidence": 0.89
+        },
+        "telephone": {
+          "value": "0388000000",
+          "confidence": 0.7
+        },
+        "email": {
+          "value": "camille.dupont@example.invalid",
+          "confidence": 0.73
+        },
+        "nationalite": {
+          "value": "Francaise",
+          "confidence": 0.986
+        },
+        "profession": {
+          "value": "Consultant",
+          "confidence": 0.79
+        },
+        "categorieSocioProfessionnelle": {
+          "value": "A_DEFINIR_KEREIS",
+          "confidence": 0.964
+        },
+        "sansActiviteRemuneree": {
+          "value": true,
+          "confidence": 0.949
+        },
+        "netFiscalN1": {
+          "value": 45000.5,
+          "confidence": 0.998
+        },
+        "netFiscalN2": {
+          "value": 45000.5,
+          "confidence": 0.88
+        },
+        "fumeur": {
+          "value": true,
+          "confidence": 0.946
+        },
+        "codeFormule": {
+          "value": "FORMULE_1",
+          "confidence": 0.939
+        },
+        "capitalDeces": {
+          "value": 12.0,
+          "confidence": 0.951
+        },
+        "modaliteVersement": {
+          "value": "CAPITAL",
+          "confidence": 0.951
+        },
+        "dureeRenteAnnees": {
+          "value": 12.0,
+          "confidence": 0.971
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "presenceParaphes": {
+          "value": true,
+          "confidence": 0.987
+        },
+        "presentSignatureHabilite": {
+          "value": true,
+          "confidence": 0.989
+        },
+        "presentSignatureAssure": {
+          "value": true,
+          "confidence": 0.99
+        },
+        "typeClauseDeces": {
+          "value": "DESIGNES",
+          "confidence": 0.935
+        },
+        "beneficiaireCivilite": {
+          "value": "M",
+          "confidence": 0.948
+        },
+        "beneficiaireNom": {
+          "value": "Dupont",
+          "confidence": 0.975
+        },
+        "beneficiaireNomNaissance": {
+          "value": "Martin",
+          "confidence": 0.943
+        },
+        "beneficiairePrenom": {
+          "value": "Alex",
+          "confidence": 0.925
+        },
+        "beneficiaireAdresse": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.974
+        },
+        "lieuNaissance": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.96
+        },
+        "beneficiairePartPourcentage": {
+          "value": 100.0,
+          "confidence": 0.985
+        },
+        "identiqueAssure": {
+          "value": true,
+          "confidence": 0.986
+        },
+        "periodiciteCotisation": {
+          "value": "MENSUELLE",
+          "confidence": 0.978
+        },
+        "decesDegressif": {
+          "value": true,
+          "confidence": 0.939
+        },
+        "doublementDecesAccidentel": {
+          "value": true,
+          "confidence": 0.94
+        },
+        "fraisProfessionnelsItt": {
+          "value": true,
+          "confidence": 0.92
+        },
+        "remiseCollaborateur": {
+          "value": "AUCUNE",
+          "confidence": 0.959
+        },
+        "numeroUidPresent": {
+          "value": true,
+          "confidence": 0.939
+        },
+        "codeAgence": {
+          "value": "0675",
+          "confidence": 0.924
+        },
+        "emailConseiller": {
+          "value": "sophie.leroy@example.invalid",
+          "confidence": 0.76
+        },
+        "nomConseiller": {
+          "value": "Leroy",
+          "confidence": 0.76
+        },
+        "prenomConseiller": {
+          "value": "Sophie",
+          "confidence": 0.73
+        },
+        "risqueSejour": {
+          "value": true,
+          "confidence": 0.972
+        },
+        "conventionMadelin": {
+          "value": "CONVENTION_2289_NON_MADELIN",
+          "confidence": 0.978
+        },
+        "segmentation": {
+          "value": "STANDARD",
+          "confidence": 0.99
         }
       },
       "lock": {
@@ -502,32 +593,33 @@
       },
       "description": "RECUEIL_CONSENTEMENT",
       "metadata": {
-        "delos": {
-          "documentUuid": "1b4e28ba-2fa1-11d2-883f-0016d3cca427",
-          "documentType": "RECUEIL_CONSENTEMENT",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "recueil": {
-              "present": true
-            },
-            "consentement": {
-              "donneesSante": true
-            },
-            "signatures": {
-              "assure": {
-                "present": true
-              },
-              "dateSignature": "2026-08-12"
-            }
-          },
-          "anomalies": []
+        "presentRecueil": {
+          "value": true,
+          "confidence": 0.984
+        },
+        "consentementDonneesSante": {
+          "value": true,
+          "confidence": 0.929
+        },
+        "signatureAssure": {
+          "value": true,
+          "confidence": 0.99
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "nom": {
+          "value": "Dupont",
+          "confidence": 0.978
+        },
+        "prenom": {
+          "value": "Camille",
+          "confidence": 0.939
+        },
+        "dateNaissance": {
+          "value": "1985-03-12",
+          "confidence": 0.925
         }
       },
       "lock": {
@@ -790,27 +882,37 @@
       },
       "description": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
       "metadata": {
-        "delos": {
-          "documentUuid": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
-          "documentType": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 3,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "questionnaire": {
-              "type": "QSS_SIMPLIFIE",
-              "emetteur": "CONSEILLER_BNP",
-              "manuscrit": true,
-              "recueilConsentementJoint": true,
-              "reponsePositivePresente": true
-            }
-          },
-          "anomalies": []
+        "type": {
+          "value": "QSS_SIMPLIFIE",
+          "confidence": 0.984
+        },
+        "emetteur": {
+          "value": "CONSEILLER_BNP",
+          "confidence": 0.941
+        },
+        "manuscrit": {
+          "value": true,
+          "confidence": 0.99
+        },
+        "recueilConsentementJoint": {
+          "value": true,
+          "confidence": 0.952
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "present": {
+          "value": true,
+          "confidence": 0.934
+        },
+        "paraphesToutesPages": {
+          "value": true,
+          "confidence": 0.929
+        },
+        "allReponsesNegative": {
+          "value": true,
+          "confidence": 0.972
         }
       },
       "lock": {
@@ -1073,26 +1175,33 @@
       },
       "description": "MANDAT_SEPA",
       "metadata": {
-        "delos": {
-          "documentUuid": "9c858901-8a57-4791-81fe-4c455b099bc9",
-          "documentType": "MANDAT_SEPA",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "banque": {
-              "iban": "FR7630006000011234567890189",
-              "titulaire": "Camille MARTIN",
-              "adresseTitulaire": "VALEUR_TEST",
-              "bic": "BNPAFRPPXXX"
-            }
-          },
-          "anomalies": []
+        "iban": {
+          "value": "FR7630006000011234567890189",
+          "confidence": 0.938
+        },
+        "titulaire": {
+          "value": "Camille Dupont",
+          "confidence": 0.962
+        },
+        "dateSignature": {
+          "value": "2026-08-12",
+          "confidence": 0.942
+        },
+        "present": {
+          "value": true,
+          "confidence": 0.934
+        },
+        "— ne pas extraire —": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.942
+        },
+        "adresseTitulaire": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.985
+        },
+        "bic": {
+          "value": "BNPAFRPPXXX",
+          "confidence": 0.976
         }
       },
       "lock": {
@@ -1355,27 +1464,25 @@
       },
       "description": "RIB",
       "metadata": {
-        "delos": {
-          "documentUuid": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
-          "documentType": "RIB",
-          "extraction": {
-            "engine": "DELOS",
-            "engineVersion": "1.0.0",
-            "extractedAt": "2026-08-20T09:14:22Z",
-            "pageCount": 1,
-            "handwritten": false,
-            "globalConfidence": 0.94
-          },
-          "fields": {
-            "banque": {
-              "iban": "FR7630006000011234567890189",
-              "bic": "BNPAFRPPXXX",
-              "titulaire": "Camille MARTIN",
-              "typeCompte": "PERSONNEL",
-              "adresseTitulaire": "VALEUR_TEST"
-            }
-          },
-          "anomalies": []
+        "iban": {
+          "value": "FR7630006000011234567890189",
+          "confidence": 0.938
+        },
+        "bic": {
+          "value": "BNPAFRPPXXX",
+          "confidence": 0.976
+        },
+        "titulaire": {
+          "value": "Camille Dupont",
+          "confidence": 0.962
+        },
+        "typeCompte": {
+          "value": "PERSONNEL",
+          "confidence": 0.92
+        },
+        "adresseTitulaire": {
+          "value": "VALEUR_TEST",
+          "confidence": 0.985
         }
       },
       "lock": {

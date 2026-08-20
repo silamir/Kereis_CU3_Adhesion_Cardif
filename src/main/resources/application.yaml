@@ -36,8 +36,9 @@ cu3:
     etat-renvoi-gestionnaire: PENDING_PROCESSING
     sla-heures: 48
   extraction:
-    seuil-confiance-globale: 0.80
-    seuil-confiance-champ: 0.70
+    # Delos fournit une confiance PAR CHAMP. Un champ sous ce seuil n'est pas une
+    # erreur : c'est une valeur a faire verifier par le gestionnaire.
+    seuil-confiance-champ: 0.90
 
 ---
 spring:
