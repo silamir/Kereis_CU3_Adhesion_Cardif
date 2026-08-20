@@ -451,7 +451,7 @@
       },
       "receptionOrder": 1,
       "reception": {
-        "id": "REC-2026-0001",
+        "id": "REC-2026-0008",
         "createdAt": "2026-08-20T08:02:11Z",
         "createdByApp": {
           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -608,7 +608,7 @@
           "confidence": 0.984
         },
         "consentementDonneesSante": {
-          "value": true,
+          "value": false,
           "confidence": 0.929
         },
         "signatureAssure": {
@@ -738,7 +738,7 @@
       },
       "receptionOrder": 2,
       "reception": {
-        "id": "REC-2026-0001",
+        "id": "REC-2026-0008",
         "createdAt": "2026-08-20T08:02:11Z",
         "createdByApp": {
           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -1029,7 +1029,7 @@
       },
       "receptionOrder": 3,
       "reception": {
-        "id": "REC-2026-0001",
+        "id": "REC-2026-0008",
         "createdAt": "2026-08-20T08:02:11Z",
         "createdByApp": {
           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -1312,7 +1312,7 @@
       },
       "receptionOrder": 4,
       "reception": {
-        "id": "REC-2026-0001",
+        "id": "REC-2026-0008",
         "createdAt": "2026-08-20T08:02:11Z",
         "createdByApp": {
           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -1591,7 +1591,7 @@
       },
       "receptionOrder": 5,
       "reception": {
-        "id": "REC-2026-0001",
+        "id": "REC-2026-0008",
         "createdAt": "2026-08-20T08:02:11Z",
         "createdByApp": {
           "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",

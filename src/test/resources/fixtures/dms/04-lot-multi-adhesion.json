@@ -313,7 +313,7 @@
           "confidence": 0.959
         },
         "numeroUidPresent": {
-          "value": true,
+          "value": "VALEUR_TEST",
           "confidence": 0.939
         },
         "codeAgence": {
@@ -780,7 +780,7 @@
           "confidence": 0.959
         },
         "numeroUidPresent": {
-          "value": true,
+          "value": "VALEUR_TEST",
           "confidence": 0.939
         },
         "codeAgence": {
@@ -1083,19 +1083,19 @@
           "confidence": 0.99
         },
         "dateSignature": {
-          "value": "2026-08-12",
+          "value": true,
           "confidence": 0.942
         },
         "nom": {
-          "value": "Dupont",
+          "value": true,
           "confidence": 0.978
         },
         "prenom": {
-          "value": "Camille",
+          "value": true,
           "confidence": 0.939
         },
         "dateNaissance": {
-          "value": "1985-03-12",
+          "value": true,
           "confidence": 0.925
         }
       },
@@ -1358,11 +1358,11 @@
       "description": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
       "metadata": {
         "type": {
-          "value": "QSS_SIMPLIFIE",
+          "value": true,
           "confidence": 0.984
         },
         "emetteur": {
-          "value": "CONSEILLER_BNP",
+          "value": true,
           "confidence": 0.941
         },
         "manuscrit": {
@@ -1374,7 +1374,7 @@
           "confidence": 0.952
         },
         "dateSignature": {
-          "value": "2026-08-12",
+          "value": true,
           "confidence": 0.942
         },
         "present": {
@@ -1653,11 +1653,11 @@
           "confidence": 0.938
         },
         "titulaire": {
-          "value": "Camille Dupont",
+          "value": true,
           "confidence": 0.962
         },
         "dateSignature": {
-          "value": "2026-08-12",
+          "value": true,
           "confidence": 0.942
         },
         "present": {
@@ -1665,11 +1665,11 @@
           "confidence": 0.934
         },
         "adresseTitulaire": {
-          "value": "12 rue des Lilas, 67250 Soultz-sous-Forets",
-          "confidence": 0.84
+          "value": true,
+          "confidence": 0.985
         },
         "bic": {
-          "value": "BNPAFRPPXXX",
+          "value": true,
           "confidence": 0.976
         }
       },
@@ -1948,8 +1948,8 @@
           "confidence": 0.92
         },
         "adresseTitulaire": {
-          "value": "12 rue des Lilas, 67250 Soultz-sous-Forets",
-          "confidence": 0.84
+          "value": "VALEUR_TEST",
+          "confidence": 0.985
         }
       },
       "lock": {

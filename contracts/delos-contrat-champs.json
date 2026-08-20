@@ -22,7 +22,9 @@
           "enumerationAObtenir": true,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 9
+          "ligneExcel": 9,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "civilite",
@@ -41,7 +43,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 10
+          "ligneExcel": 10,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "prenom",
@@ -56,7 +60,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 11
+          "ligneExcel": 11,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "nom",
@@ -71,7 +77,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 12
+          "ligneExcel": 12,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "dateNaissance",
@@ -86,7 +94,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 13
+          "ligneExcel": 13,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "communeNaissance",
@@ -107,7 +117,9 @@
             "origine": "commune",
             "raison": "L20 porte deja « commune » pour la localite d'adresse. Le fichier de reference Delos distingue « communeNaissance » et « commune ».",
             "statut": "A VALIDER PAR LE METIER"
-          }
+          },
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "departement",
@@ -122,7 +134,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 15
+          "ligneExcel": 15,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "paysNaissance",
@@ -143,7 +157,9 @@
             "origine": "pays",
             "raison": "L18 porte deja « pays » pour l'adresse. Le fichier de reference Delos distingue « paysNaissance » et « pays ».",
             "statut": "A VALIDER PAR LE METIER"
-          }
+          },
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "adresse",
@@ -158,7 +174,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 17
+          "ligneExcel": 17,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "pays",
@@ -173,7 +191,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 18
+          "ligneExcel": 18,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "codePostal",
@@ -188,7 +208,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 19
+          "ligneExcel": 19,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "commune",
@@ -203,7 +225,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 20
+          "ligneExcel": 20,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "telephone",
@@ -218,7 +242,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 21
+          "ligneExcel": 21,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "email",
@@ -233,7 +259,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 22
+          "ligneExcel": 22,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "nationalite",
@@ -248,7 +276,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 23
+          "ligneExcel": 23,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "profession",
@@ -263,7 +293,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 24
+          "ligneExcel": 24,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "categorieSocioProfessionnelle",
@@ -278,7 +310,9 @@
           "enumerationAObtenir": true,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 25
+          "ligneExcel": 25,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "sansActiviteRemuneree",
@@ -293,7 +327,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 26
+          "ligneExcel": 26,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "netFiscalN1",
@@ -308,7 +344,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 27
+          "ligneExcel": 27,
+          "typeEffectif": "number",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "netFiscalN2",
@@ -323,7 +361,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 28
+          "ligneExcel": 28,
+          "typeEffectif": "number",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "fumeur",
@@ -338,7 +378,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 29
+          "ligneExcel": 29,
+          "typeEffectif": "boolean",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "codeFormule",
@@ -359,7 +401,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 30
+          "ligneExcel": 30,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "capitalDeces",
@@ -374,7 +418,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 31
+          "ligneExcel": 31,
+          "typeEffectif": "number",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "modaliteVersement",
@@ -392,7 +438,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 32
+          "ligneExcel": 32,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "dureeRenteAnnees",
@@ -407,7 +455,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 33
+          "ligneExcel": 33,
+          "typeEffectif": "integer",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "dateSignature",
@@ -422,7 +472,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 34
+          "ligneExcel": 34,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "presenceParaphes",
@@ -437,7 +489,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 35
+          "ligneExcel": 35,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "presentSignatureHabilite",
@@ -452,7 +506,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 36
+          "ligneExcel": 36,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "presentSignatureAssure",
@@ -467,7 +523,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 37
+          "ligneExcel": 37,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "typeClauseDeces",
@@ -486,7 +544,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 38
+          "ligneExcel": 38,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiaireCivilite",
@@ -505,7 +565,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 39
+          "ligneExcel": 39,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiaireNom",
@@ -520,7 +582,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 40
+          "ligneExcel": 40,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiaireNomNaissance",
@@ -535,7 +599,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 41
+          "ligneExcel": 41,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiairePrenom",
@@ -550,7 +616,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 42
+          "ligneExcel": 42,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiaireAdresse",
@@ -565,7 +633,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 43
+          "ligneExcel": 43,
+          "typeEffectif": "object",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiaireDateNaissance",
@@ -586,7 +656,9 @@
             "origine": "dateNaissance",
             "raison": "L13 porte deja « dateNaissance » pour l'assure. Le fichier de reference Delos nomme celle du beneficiaire « beneficiaireDateNaissance », comme les autres champs beneficiaire deja presents au classeur.",
             "statut": "A VALIDER PAR LE METIER"
-          }
+          },
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "lieuNaissance",
@@ -601,7 +673,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 45
+          "ligneExcel": 45,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "beneficiairePartPourcentage",
@@ -616,7 +690,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 46
+          "ligneExcel": 46,
+          "typeEffectif": "number",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "identiqueAssure",
@@ -631,7 +707,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 47
+          "ligneExcel": 47,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "periodiciteCotisation",
@@ -651,7 +729,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 48
+          "ligneExcel": 48,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "decesDegressif",
@@ -666,7 +746,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 49
+          "ligneExcel": 49,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "doublementDecesAccidentel",
@@ -681,7 +763,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 50
+          "ligneExcel": 50,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "fraisProfessionnelsItt",
@@ -696,7 +780,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 51
+          "ligneExcel": 51,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "remiseCollaborateur",
@@ -714,7 +800,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 52
+          "ligneExcel": 52,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "numeroUidPresent",
@@ -729,7 +817,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 53
+          "ligneExcel": 53,
+          "typeEffectif": "boolean",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "codeAgence",
@@ -744,7 +834,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 54
+          "ligneExcel": 54,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "emailConseiller",
@@ -759,7 +851,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 55
+          "ligneExcel": 55,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "nomConseiller",
@@ -774,7 +868,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 56
+          "ligneExcel": 56,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "prenomConseiller",
@@ -789,7 +885,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 57
+          "ligneExcel": 57,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "risqueSejour",
@@ -804,7 +902,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 58
+          "ligneExcel": 58,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "conventionMadelin",
@@ -822,7 +922,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 59
+          "ligneExcel": 59,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "segmentation",
@@ -840,7 +942,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 60
+          "ligneExcel": 60,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         }
       ]
     },
@@ -862,7 +966,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 62
+          "ligneExcel": 62,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "consentementDonneesSante",
@@ -877,7 +983,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 63
+          "ligneExcel": 63,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "signatureAssure",
@@ -892,7 +1000,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 64
+          "ligneExcel": 64,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "dateSignature",
@@ -907,7 +1017,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 65
+          "ligneExcel": 65,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "nom",
@@ -922,7 +1034,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 66
+          "ligneExcel": 66,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "prenom",
@@ -937,7 +1051,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 67
+          "ligneExcel": 67,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "dateNaissance",
@@ -952,7 +1068,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 68
+          "ligneExcel": 68,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         }
       ]
     },
@@ -977,7 +1095,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 70
+          "ligneExcel": 70,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "emetteur",
@@ -995,7 +1115,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 71
+          "ligneExcel": 71,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "manuscrit",
@@ -1010,7 +1132,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 72
+          "ligneExcel": 72,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "recueilConsentementJoint",
@@ -1025,7 +1149,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 73
+          "ligneExcel": 73,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "dateSignature",
@@ -1040,7 +1166,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 74
+          "ligneExcel": 74,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "present",
@@ -1055,7 +1183,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 75
+          "ligneExcel": 75,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "paraphesToutesPages",
@@ -1070,7 +1200,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 76
+          "ligneExcel": 76,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "allReponsesNegative",
@@ -1085,7 +1217,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 77
+          "ligneExcel": 77,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         }
       ]
     },
@@ -1107,7 +1241,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 79
+          "ligneExcel": 79,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "titulaire",
@@ -1122,7 +1258,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 80
+          "ligneExcel": 80,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "dateSignature",
@@ -1137,7 +1275,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 81
+          "ligneExcel": 81,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "present",
@@ -1152,7 +1292,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 82
+          "ligneExcel": 82,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "— ne pas extraire —",
@@ -1167,7 +1309,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": false,
-          "ligneExcel": 83
+          "ligneExcel": 83,
+          "typeEffectif": null,
+          "natureRetour": "NON_RENVOYE"
         },
         {
           "variable": "adresseTitulaire",
@@ -1182,7 +1326,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 84
+          "ligneExcel": 84,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         },
         {
           "variable": "bic",
@@ -1197,7 +1343,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 85
+          "ligneExcel": 85,
+          "typeEffectif": "boolean",
+          "natureRetour": "CONDITION"
         }
       ]
     },
@@ -1219,7 +1367,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 87
+          "ligneExcel": 87,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "bic",
@@ -1234,7 +1384,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 88
+          "ligneExcel": 88,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "titulaire",
@@ -1249,7 +1401,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 89
+          "ligneExcel": 89,
+          "typeEffectif": "string",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "typeCompte",
@@ -1267,7 +1421,9 @@
           "enumerationAObtenir": false,
           "obligatoire": true,
           "extractible": true,
-          "ligneExcel": 90
+          "ligneExcel": 90,
+          "typeEffectif": "string (enum)",
+          "natureRetour": "VALEUR"
         },
         {
           "variable": "adresseTitulaire",
@@ -1282,7 +1438,9 @@
           "enumerationAObtenir": false,
           "obligatoire": false,
           "extractible": true,
-          "ligneExcel": 91
+          "ligneExcel": 91,
+          "typeEffectif": "object",
+          "natureRetour": "VALEUR"
         }
       ]
     }
@@ -1311,6 +1469,13 @@
         "retenu": "beneficiaireDateNaissance"
       }
     ],
-    "collisionsRestantes": []
+    "collisionsRestantes": [],
+    "note": ""
+  },
+  "natureDesRetours": {
+    "regle": "Le classeur distingue deux natures de retour Delos. « A extraire » : la valeur brute, du type declare. « A verifier / controle » : un booleen indiquant que la condition est remplie. La seule ligne marquee « ne pas extraire » n'est pas renvoyee du tout : le module la calcule.",
+    "VALEUR": 49,
+    "CONDITION": 29,
+    "NON_RENVOYE": 1
   }
 }

@@ -8,67 +8,84 @@ import java.util.stream.Collectors;
 /**
  * Contrat de champs, transcrit depuis la source de verite.
  *
- * <p>La source est l'onglet « Contrat de champs » du classeur Delos, dont une copie
- * lisible par machine est versionnee dans {@code contracts/delos-contrat-champs.json}.
- * Chaque champ porte son role, son caractere obligatoire, son type et son enumeration :
- * les regles metier interrogent ce contrat plutot que de reproduire ces informations,
- * ce qui evite qu'elles divergent du classeur.
+ * <p>Le classeur distingue deux natures de retour, et la distinction porte sur le
+ * <b>type</b> de ce que Delos renvoie :
  *
- * <p>Trois champs de D09 sont renommes par rapport au classeur, dont les noms de
- * variable ne sont pas uniques a l'interieur d'un document : a plat, la seconde
- * occurrence ecraserait la premiere. La desambiguisation suit le fichier de reference
- * Delos et attend validation du metier. Detail dans le contrat versionne.
+ * <ul>
+ *   <li><b>« A extraire »</b> — Delos renvoie la valeur brute, du type declare.
+ *   <li><b>« A verifier / controle »</b> — Delos renvoie un <b>booleen</b> indiquant que
+ *       la condition est remplie. Le libelle du classeur dit laquelle.
+ * </ul>
  *
- * <p>Genere. Ne pas editer a la main.
+ * <p>Une seule ligne n'est pas renvoyee du tout, celle marquee « ne pas extraire » : la
+ * coherence RIB / mandat SEPA est calculee par le module.
+ *
+ * <p>Genere depuis {@code contracts/delos-contrat-champs.json}. Ne pas editer a la main.
  */
 public final class ContratChamps {
 
     private ContratChamps() {}
 
-    /** Ce que le contrat attend d'un champ. */
-    public enum Role {
-        /** Delos extrait la valeur. */
-        EXTRACTION,
-        /** Le module verifie ou compare ; la valeur n'est pas forcement extraite. */
-        CONTROLE
+    /** Ce que Delos renvoie pour un champ. */
+    public enum NatureRetour {
+        /** La valeur brute, du type declare au contrat. */
+        VALEUR,
+        /** Un booleen : la condition decrite par le libelle est remplie, ou non. */
+        CONDITION,
+        /** Rien : le module calcule lui-meme. */
+        NON_RENVOYE
     }
 
     /**
      * @param variable nom retenu pour le champ
-     * @param variableClasseur nom au classeur, present seulement si un renommage a eu lieu
+     * @param variableClasseur nom au classeur, non nul seulement si un renommage a eu lieu
      * @param document type de document porteur
-     * @param role extraction ou controle, colonne « Delos : extraire ou controler »
+     * @param nature ce que Delos renvoie : valeur, condition, ou rien
      * @param obligatoire colonne « Obligatoire »
-     * @param typeJson type attendu
+     * @param typeDeclare type declare au contrat, pertinent pour une VALEUR
      * @param enumeration nom de l'enumeration, {@code null} si le champ n'est pas enumere
      * @param valeursEnumeration valeurs connues ; vide si elles restent a obtenir
-     * @param extractible faux pour la ligne marquee « ne pas extraire »
-     * @param libelle libelle au dictionnaire, cite tel quel
+     * @param libelle libelle au dictionnaire, cite tel quel. Pour une CONDITION, c'est lui
+     *     qui dit ce que le booleen affirme.
      */
     public record Champ(
             String variable,
             String variableClasseur,
             TypeDocument document,
-            Role role,
+            NatureRetour nature,
             boolean obligatoire,
-            String typeJson,
+            String typeDeclare,
             String enumeration,
             List<String> valeursEnumeration,
-            boolean extractible,
             String libelle) {
 
         public Champ {
             valeursEnumeration = List.copyOf(valeursEnumeration);
         }
 
-        /** Vrai si le champ est enumere mais que ses valeurs restent a obtenir. */
+        /** Type effectivement attendu dans {@code metadata}. */
+        public String typeEffectif() {
+            return nature == NatureRetour.CONDITION ? "boolean" : typeDeclare;
+        }
+
+        public boolean renvoyeParDelos() {
+            return nature != NatureRetour.NON_RENVOYE;
+        }
+
         public boolean enumerationAObtenir() {
             return enumeration != null && valeursEnumeration.isEmpty();
         }
 
-        /** Vrai si le nom retenu differe de celui du classeur. */
         public boolean renomme() {
             return variableClasseur != null;
+        }
+
+        /**
+         * Vrai si le classeur se contredit : un champ annonce comme condition, donc
+         * booleen, ne peut pas porter de valeur enumeree.
+         */
+        public boolean contradictionEnumerationCondition() {
+            return nature == NatureRetour.CONDITION && enumeration != null;
         }
     }
 
@@ -77,870 +94,791 @@ public final class ContratChamps {
                     "typeProduit",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "TYPE_PRODUIT",
                     List.of(),
-                    true,
                     "Type (de bulletin / produit)"),
             new Champ(
                     "civilite",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "CIVILITE",
                     List.of("M", "MME", "MLLE"),
-                    true,
                     "Civilité"),
             new Champ(
                     "prenom",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Prénom"),
             new Champ(
                     "nom",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nom"),
             new Champ(
                     "dateNaissance",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Date de naissance"),
             new Champ(
                     "communeNaissance",
                     "commune",
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Lieu de naissance"),
             new Champ(
                     "departement",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Département de naissance"),
             new Champ(
                     "paysNaissance",
                     "pays",
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Pays de naissance"),
             new Champ(
                     "adresse",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Numéro de voie / adresse"),
             new Champ(
                     "pays",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Pays (adresse)"),
             new Champ(
                     "codePostal",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Code postal"),
             new Champ(
                     "commune",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Localité"),
             new Champ(
                     "telephone",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Numéro de téléphone"),
             new Champ(
                     "email",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Email"),
             new Champ(
                     "nationalite",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nationalité"),
             new Champ(
                     "profession",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Profession exacte"),
             new Champ(
                     "categorieSocioProfessionnelle",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "CSP",
                     List.of(),
-                    true,
                     "Catégorie socio-professionnelle (CSP)"),
             new Champ(
                     "sansActiviteRemuneree",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Sans activité professionnelle rémunérée (O/N)"),
             new Champ(
                     "netFiscalN1",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "number",
                     null,
                     List.of(),
-                    true,
                     "Derniers revenus annuels nets fiscaux déclarés (N-1)"),
             new Champ(
                     "netFiscalN2",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "number",
                     null,
                     List.of(),
-                    true,
                     "Précédents revenus annuels nets fiscaux déclarés (N-2)"),
             new Champ(
                     "fumeur",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Fumeur (O/N)"),
             new Champ(
                     "codeFormule",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "FORMULE_GARANTIE",
                     List.of("FORMULE_1", "FORMULE_2", "FORMULE_3", "FORMULE_4", "FORMULE_5"),
-                    true,
                     "Formule de garantie choisie"),
             new Champ(
                     "capitalDeces",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "number",
                     null,
                     List.of(),
-                    true,
                     "Capital décès (montant assuré)"),
             new Champ(
                     "modaliteVersement",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "MODALITE_VERSEMENT",
                     List.of("CAPITAL", "RENTE_FORFAITAIRE"),
-                    true,
                     "Modalités de versement (capital / rente forfaitaire)"),
             new Champ(
                     "dureeRenteAnnees",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "integer",
                     null,
                     List.of(),
-                    true,
                     "Durée de la rente (si rente)"),
             new Champ(
                     "dateSignature",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Date de signature"),
             new Champ(
                     "presenceParaphes",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Paraphes de l'adhésion / assuré (présent O/N)"),
             new Champ(
                     "presentSignatureHabilite",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Signature de la personne habilitée si applicable"),
             new Champ(
                     "presentSignatureAssure",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Signature de l'assuré (présent O/N)"),
             new Champ(
                     "typeClauseDeces",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "TYPE_CLAUSE_BENEFICIAIRE",
                     List.of("DESIGNES", "CLAUSE_LIBRE", "CLAUSE_STANDARD"),
-                    true,
                     "Bénéficiaires décès - type (désignés / clause libre / clause standard)"),
             new Champ(
                     "beneficiaireCivilite",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string (enum)",
                     "CIVILITE",
                     List.of("M", "MME", "MLLE"),
-                    true,
                     "Bénéficiaire désigné - civilité"),
             new Champ(
                     "beneficiaireNom",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - nom"),
             new Champ(
                     "beneficiaireNomNaissance",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - nom de naissance"),
             new Champ(
                     "beneficiairePrenom",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - prénom"),
             new Champ(
                     "beneficiaireAdresse",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "object",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - adresse"),
             new Champ(
                     "beneficiaireDateNaissance",
                     "dateNaissance",
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - date et lieu de naissance"),
             new Champ(
                     "lieuNaissance",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - date et lieu de naissance"),
             new Champ(
                     "beneficiairePartPourcentage",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "number",
                     null,
                     List.of(),
-                    true,
                     "Bénéficiaire désigné - part attribuée (%)"),
             new Champ(
                     "identiqueAssure",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Souscripteur = assuré (O/N)"),
             new Champ(
                     "periodiciteCotisation",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "PERIODICITE",
                     List.of("MENSUELLE", "TRIMESTRIELLE", "SEMESTRIELLE", "ANNUELLE"),
-                    true,
                     "Débiteur - périodicité des cotisations"),
             new Champ(
                     "decesDegressif",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Option décès dégressif"),
             new Champ(
                     "doublementDecesAccidentel",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Option doublement décès accidentelle"),
             new Champ(
                     "fraisProfessionnelsItt",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Option prise en charge des frais professionnels en cas d'ITT"),
             new Champ(
                     "remiseCollaborateur",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "REMISE_COLLABORATEUR",
                     List.of("AUCUNE", "REMISE_15"),
-                    true,
                     "Remise collaborateur qui de 15% / présence du numéro UID"),
             new Champ(
                     "numeroUidPresent",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Remise collaborateur qui de 15% / présence du numéro UID"),
             new Champ(
                     "codeAgence",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Code agence"),
             new Champ(
                     "emailConseiller",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Email du conseiller"),
             new Champ(
                     "nomConseiller",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nom du conseiller"),
             new Champ(
                     "prenomConseiller",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Prénom du conseiller"),
             new Champ(
                     "risqueSejour",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Risque de séjour O/N"),
             new Champ(
                     "conventionMadelin",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "CONVENTION_MADELIN",
                     List.of("CONVENTION_2289_NON_MADELIN", "CONVENTION_2290_MADELIN"),
-                    true,
                     "Convention Madelin (2289/2290)"),
             new Champ(
                     "segmentation",
                     null,
                     TypeDocument.BULLETIN_ADHESION,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "SEGMENTATION",
                     List.of("STANDARD", "VIP"),
-                    true,
                     "Segmentation (standard / VIP)"),
             new Champ(
                     "presentRecueil",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Présence du recueil (O/N)"),
             new Champ(
                     "consentementDonneesSante",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Consentement données de santé (O/N)"),
             new Champ(
                     "signatureAssure",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Signature de l'assuré (O/N)"),
             new Champ(
                     "dateSignature",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Date de signature"),
             new Champ(
                     "nom",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nom , prenom et date de naissance si meme sur le BA"),
             new Champ(
                     "prenom",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nom , prenom et date de naissance si meme sur le BA"),
             new Champ(
                     "dateNaissance",
                     null,
                     TypeDocument.RECUEIL_CONSENTEMENT,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Nom , prenom et date de naissance si meme sur le BA"),
             new Champ(
                     "type",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string (enum)",
                     "TYPE_QUESTIONNAIRE",
                     List.of("QSS_SIMPLIFIE", "QS_COMPLET"),
-                    true,
                     "Type (QSS simplifié / QS complet)"),
             new Champ(
                     "emetteur",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string (enum)",
                     "EMETTEUR_QUESTIONNAIRE",
                     List.of("CONSEILLER_BNP", "ASSURE"),
-                    true,
                     "Émetteur du document (conseiller BNP / assuré)"),
             new Champ(
                     "manuscrit",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Rempli à la main / scanné (O/N)"),
             new Champ(
                     "recueilConsentementJoint",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Recueil de consentement joint (O/N)"),
             new Champ(
                     "dateSignature",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Date et signature et paraphes si on a 3 pages"),
             new Champ(
                     "present",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Date et signature et paraphes si on a 3 pages"),
             new Champ(
                     "paraphesToutesPages",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Date et signature et paraphes si on a 3 pages"),
             new Champ(
                     "allReponsesNegative",
                     null,
                     TypeDocument.QUESTIONNAIRE_SANTE_SIMPLIFIE,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Je peux répondre \"non\" / je réponds oui"),
             new Champ(
                     "iban",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "IBAN"),
             new Champ(
                     "titulaire",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Titulaire du compte"),
             new Champ(
                     "dateSignature",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Date et signature"),
             new Champ(
                     "present",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     false,
                     "boolean",
                     null,
                     List.of(),
-                    true,
                     "Date et signature"),
             new Champ(
                     "— ne pas extraire —",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.NON_RENVOYE,
                     false,
                     "—",
                     null,
                     List.of(),
-                    false,
                     "Cohérence RIB / mandat SEPA (O/N)"),
             new Champ(
                     "adresseTitulaire",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "object",
                     null,
                     List.of(),
-                    true,
                     "Adresse postale"),
             new Champ(
                     "bic",
                     null,
                     TypeDocument.MANDAT_SEPA,
-                    Role.CONTROLE,
+                    NatureRetour.CONDITION,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "BIC"),
             new Champ(
                     "iban",
                     null,
                     TypeDocument.RIB,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "IBAN"),
             new Champ(
                     "bic",
                     null,
                     TypeDocument.RIB,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "BIC"),
             new Champ(
                     "titulaire",
                     null,
                     TypeDocument.RIB,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string",
                     null,
                     List.of(),
-                    true,
                     "Titulaire du compte"),
             new Champ(
                     "typeCompte",
                     null,
                     TypeDocument.RIB,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     true,
                     "string (enum)",
                     "TYPE_COMPTE",
                     List.of("PERSONNEL", "PROFESSIONNEL"),
-                    true,
                     "Type de compte (personnel / professionnel)"),
             new Champ(
                     "adresseTitulaire",
                     null,
                     TypeDocument.RIB,
-                    Role.EXTRACTION,
+                    NatureRetour.VALEUR,
                     false,
                     "object",
                     null,
                     List.of(),
-                    true,
                     "Adresse ( pas très important )")
             );
 
@@ -966,21 +904,33 @@ public final class ContratChamps {
      * la liste ne se tient plus a la main, elle se lit dans le classeur.
      */
     public static List<String> obligatoires(TypeDocument document) {
+        return du(document).stream().filter(Champ::obligatoire).map(Champ::variable).toList();
+    }
+
+    /** Champs attendus dans {@code metadata}, valeurs et conditions confondues. */
+    public static List<String> attendus(TypeDocument document) {
         return du(document).stream()
-                .filter(Champ::obligatoire)
+                .filter(Champ::renvoyeParDelos)
                 .map(Champ::variable)
                 .toList();
     }
 
-    /** Champs que le classeur donne pour extraits, donc attendus dans {@code metadata}. */
-    public static List<String> aExtraire(TypeDocument document) {
+    /** Champs dont Delos renvoie un booleen de condition. */
+    public static List<String> conditions(TypeDocument document) {
         return du(document).stream()
-                .filter(c -> c.role() == Role.EXTRACTION && c.extractible())
+                .filter(c -> c.nature() == NatureRetour.CONDITION)
                 .map(Champ::variable)
                 .toList();
     }
 
-    /** Champs enumeres dont les valeurs restent a obtenir : autant de regles non figeables. */
+    /** Champs dont Delos renvoie la valeur brute. */
+    public static List<String> valeurs(TypeDocument document) {
+        return du(document).stream()
+                .filter(c -> c.nature() == NatureRetour.VALEUR)
+                .map(Champ::variable)
+                .toList();
+    }
+
     public static List<Champ> enumerationsAObtenir() {
         return TOUS.stream().filter(Champ::enumerationAObtenir).toList();
     }
@@ -988,5 +938,13 @@ public final class ContratChamps {
     /** Champs renommes faute d'unicite au classeur. A valider par le metier. */
     public static List<Champ> renommes() {
         return TOUS.stream().filter(Champ::renomme).toList();
+    }
+
+    /**
+     * Contradictions du classeur : champ annonce comme condition, donc booleen, mais
+     * portant une enumeration. Un booleen ne peut pas porter {@code QSS_SIMPLIFIE}.
+     */
+    public static List<Champ> contradictions() {
+        return TOUS.stream().filter(Champ::contradictionEnumerationCondition).toList();
     }
 }

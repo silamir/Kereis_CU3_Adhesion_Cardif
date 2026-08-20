@@ -103,38 +103,48 @@ second critere du verrou anti-doublon.
 
 ---
 
-## 5. Le classeur classe le recueil et le QSS en controle a 100 % — bloquant
+## 5. Nature des retours Delos — levé
 
-La colonne « Delos : extraire ou controler » du contrat de champs donne, sur 79 lignes :
+**Question posée** : le classeur classait D10 et le QSS en « contrôle » à 100 %, ce qui laissait
+craindre que Delos n'en extraie rien.
 
-| Document | A extraire | Controle |
+**Réponse obtenue.** La colonne décrit le **type de ce que Delos renvoie**, pas sa présence :
+
+| Mention au classeur | Ce que Delos renvoie | Nombre |
 |---|---|---|
-| D09 bulletin d'adhesion | 43 | 9 |
-| D10 recueil de consentement | **0** | 7 |
-| QSS questionnaire de sante | **0** | 8 |
-| D13 mandat SEPA | 1 | 6 |
-| D14 RIB | 5 | 0 |
+| « À extraire » | la **valeur brute**, du type déclaré | 49 |
+| « À vérifier / contrôle » | un **booléen** : la condition du libellé est remplie, ou non | 29 |
+| « — ne pas extraire — » | rien ; le module calcule (cohérence RIB / mandat SEPA) | 1 |
 
-**Le probleme.** Si Delos n'extrait rien du recueil de consentement ni du questionnaire de sante,
-alors `consentementDonneesSante`, `signatureAssure`, `allReponsesNegative` ou `manuscrit` doivent
-venir d'ailleurs. Or `allReponsesNegative` est exactement ce qui decide de la recevabilite
-automatique (RG-2.3.1 : « aucun QSS avec oui coche »). S'il faut un geste humain pour l'obtenir,
-la cible de 80 % de dossiers automatises n'est pas atteignable.
+Delos renvoie donc bien les 78 champs. L'objectif d'automatisation est atteignable : `allReponsesNegative`
+arrive comme booléen, et suffit à statuer sur la recevabilité du QSS.
 
-**Deux lectures possibles**, et l'ecart entre elles est structurant :
+**Appliqué.** `ContratChamps.NatureRetour` porte la distinction, `typeEffectif()` rend `boolean` pour
+une condition, et les fixtures émettent des booléens pour les 29 champs concernés. Deux scénarios
+exercent une condition non remplie : `07-qss-avec-reponse-positive` et `08-consentement-refuse`.
 
-1. La colonne decrit **l'usage** du champ : Delos le renvoie, et le module s'en sert pour controler.
-   L'extraction couvre alors les 78 champs extractibles.
-2. La colonne decrit **la presence dans la charge utile** : Delos ne renvoie que 49 champs, et les
-   30 autres relevent d'une verification hors extraction.
+**Effet de bord favorable sur le cloisonnement des données de santé.** Le QSS ne renvoie que des
+booléens de synthèse — le détail des réponses ne traverse jamais le module. C'est exactement ce
+qu'exige la constitution.
 
-**Provisoire.** Les fixtures retiennent la lecture 1, seule compatible avec l'objectif
-d'automatisation : `metadata` porte tous les champs extractibles. Le role reste porte champ par
-champ dans `ContratChamps`, donc le jour ou la lecture 2 serait retenue, un filtre par role suffit
-— a un seul endroit.
+---
 
-**A trancher avec** l'equipe Delos et le metier. C'est la question la plus couteuse a decouvrir
-tard : elle deplace la frontiere entre ce qu'extrait le moteur et ce que fait le module.
+## 5 bis. Deux champs du QSS sont annoncés booléens tout en portant une énumération — à trancher
+
+| Champ | Énumération déclarée | Problème |
+|---|---|---|
+| `QSS type` | `TYPE_QUESTIONNAIRE : QSS_SIMPLIFIE \| QS_COMPLET` | Un booléen ne peut pas porter `QSS_SIMPLIFIE`. Or le module doit savoir s'il traite un QSS ou un QS complet pour choisir la route de sortie. |
+| `QSS emetteur` | `EMETTEUR_QUESTIONNAIRE : CONSEILLER_BNP \| ASSURE` | Même problème, et **RG-2.2.5 a besoin de l'émetteur réel** : un questionnaire complet émis par le conseiller est non recevable. Un booléen « émetteur conforme » embarquerait la règle dans Delos. |
+
+Ces deux champs devraient être des **valeurs**, pas des conditions. `ContratChamps.contradictions()`
+les remonte, et `ContratChampsTest` les fixe pour que le jour où le classeur est corrigé, le test le
+signale.
+
+**Question connexe, du même ordre.** Quatorze champs de condition ont un format déclaré non booléen,
+dont cinq dates : `dateSignature` du recueil, du QSS et du mandat SEPA. Si Delos renvoie un booléen
+pour une date, alors la règle « signature de moins de six mois » (fiche F06) **vit dans Delos**, et le
+module ne peut plus ni la recalculer ni changer le seuil. À confirmer : est-ce le choix voulu, ou ces
+dates doivent-elles arriver comme valeurs ?
 
 ---
 

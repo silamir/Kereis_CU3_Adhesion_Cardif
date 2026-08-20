@@ -179,7 +179,7 @@
       "confidence": 0.959
     },
     "numeroUidPresent": {
-      "value": true,
+      "value": "VALEUR_TEST",
       "confidence": 0.939
     },
     "codeAgence": {
