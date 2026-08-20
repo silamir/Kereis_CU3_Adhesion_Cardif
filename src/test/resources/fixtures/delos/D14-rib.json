@@ -19,8 +19,8 @@
       "confidence": 0.92
     },
     "adresseTitulaire": {
-      "value": "VALEUR_TEST",
-      "confidence": 0.985
+      "value": "12 rue des Lilas, 67250 Soultz-sous-Forets",
+      "confidence": 0.84
     }
   }
 }

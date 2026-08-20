@@ -3,7 +3,7 @@
   "documentUuid": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
   "metadata": {
     "typeProduit": {
-      "value": "A_DEFINIR_KEREIS",
+      "value": "A_OBTENIR_KEREIS",
       "confidence": 0.979
     },
     "civilite": {
@@ -22,25 +22,33 @@
       "value": "1985-03-12",
       "confidence": 0.925
     },
-    "commune": {
-      "value": "Soultz-sous-Forets",
-      "confidence": 0.993
+    "communeNaissance": {
+      "value": "Strasbourg",
+      "confidence": 0.81
     },
     "departement": {
       "value": "VALEUR_TEST",
       "confidence": 0.92
     },
-    "pays": {
+    "paysNaissance": {
       "value": "France",
-      "confidence": 0.976
+      "confidence": 0.937
     },
     "adresse": {
       "value": "12 rue des Lilas",
       "confidence": 0.77
     },
+    "pays": {
+      "value": "France",
+      "confidence": 0.976
+    },
     "codePostal": {
       "value": "67250",
       "confidence": 0.89
+    },
+    "commune": {
+      "value": "Soultz-sous-Forets",
+      "confidence": 0.993
     },
     "telephone": {
       "value": "0388000000",
@@ -59,7 +67,7 @@
       "confidence": 0.79
     },
     "categorieSocioProfessionnelle": {
-      "value": "A_DEFINIR_KEREIS",
+      "value": "A_OBTENIR_KEREIS",
       "confidence": 0.964
     },
     "sansActiviteRemuneree": {
@@ -83,7 +91,7 @@
       "confidence": 0.939
     },
     "capitalDeces": {
-      "value": 12.0,
+      "value": 150000.0,
       "confidence": 0.951
     },
     "modaliteVersement": {
@@ -131,8 +139,12 @@
       "confidence": 0.925
     },
     "beneficiaireAdresse": {
-      "value": "VALEUR_TEST",
+      "value": "4 avenue de la Gare, 68000 Colmar",
       "confidence": 0.974
+    },
+    "beneficiaireDateNaissance": {
+      "value": "1985-03-12",
+      "confidence": 0.95
     },
     "lieuNaissance": {
       "value": "VALEUR_TEST",

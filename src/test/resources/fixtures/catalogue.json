@@ -3,42 +3,48 @@
     "scenario": "01-lot-nominal",
     "documents": 5,
     "lot": "REC-2026-0001",
-    "champsSousSeuil": 9,
-    "seuil": 0.9
+    "champsSousSeuil": 12,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   },
   {
     "scenario": "02-lot-bulletin-manquant",
     "documents": 4,
     "lot": "REC-2026-0002",
-    "champsSousSeuil": 0,
-    "seuil": 0.9
+    "champsSousSeuil": 2,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   },
   {
     "scenario": "03-lot-confiance-faible",
     "documents": 5,
     "lot": "REC-2026-0003",
-    "champsSousSeuil": 12,
-    "seuil": 0.9
+    "champsSousSeuil": 15,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   },
   {
     "scenario": "04-lot-multi-adhesion",
     "documents": 6,
     "lot": "REC-2026-0004",
-    "champsSousSeuil": 18,
-    "seuil": 0.9
+    "champsSousSeuil": 22,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   },
   {
     "scenario": "05-lot-deja-rattache",
     "documents": 5,
     "lot": "REC-2026-0005",
-    "champsSousSeuil": 9,
-    "seuil": 0.9
+    "champsSousSeuil": 12,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   },
   {
     "scenario": "06-lot-champ-obligatoire-absent",
     "documents": 5,
     "lot": "REC-2026-0006",
-    "champsSousSeuil": 9,
-    "seuil": 0.9
+    "champsSousSeuil": 12,
+    "seuil": 0.9,
+    "source": "derive de contracts/delos-contrat-champs.json"
   }
 ]

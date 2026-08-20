@@ -100,3 +100,62 @@ Et deux pieges de requete, qui auraient echoue silencieusement :
 
 Bonne nouvelle au passage : **`withoutReference`** est un filtre serveur qui exprime directement le
 second critere du verrou anti-doublon.
+
+---
+
+## 5. Le classeur classe le recueil et le QSS en controle a 100 % — bloquant
+
+La colonne « Delos : extraire ou controler » du contrat de champs donne, sur 79 lignes :
+
+| Document | A extraire | Controle |
+|---|---|---|
+| D09 bulletin d'adhesion | 43 | 9 |
+| D10 recueil de consentement | **0** | 7 |
+| QSS questionnaire de sante | **0** | 8 |
+| D13 mandat SEPA | 1 | 6 |
+| D14 RIB | 5 | 0 |
+
+**Le probleme.** Si Delos n'extrait rien du recueil de consentement ni du questionnaire de sante,
+alors `consentementDonneesSante`, `signatureAssure`, `allReponsesNegative` ou `manuscrit` doivent
+venir d'ailleurs. Or `allReponsesNegative` est exactement ce qui decide de la recevabilite
+automatique (RG-2.3.1 : « aucun QSS avec oui coche »). S'il faut un geste humain pour l'obtenir,
+la cible de 80 % de dossiers automatises n'est pas atteignable.
+
+**Deux lectures possibles**, et l'ecart entre elles est structurant :
+
+1. La colonne decrit **l'usage** du champ : Delos le renvoie, et le module s'en sert pour controler.
+   L'extraction couvre alors les 78 champs extractibles.
+2. La colonne decrit **la presence dans la charge utile** : Delos ne renvoie que 49 champs, et les
+   30 autres relevent d'une verification hors extraction.
+
+**Provisoire.** Les fixtures retiennent la lecture 1, seule compatible avec l'objectif
+d'automatisation : `metadata` porte tous les champs extractibles. Le role reste porte champ par
+champ dans `ContratChamps`, donc le jour ou la lecture 2 serait retenue, un filtre par role suffit
+— a un seul endroit.
+
+**A trancher avec** l'equipe Delos et le metier. C'est la question la plus couteuse a decouvrir
+tard : elle deplace la frontiere entre ce qu'extrait le moteur et ce que fait le module.
+
+---
+
+## 6. Trois noms de champ ne sont pas uniques au classeur — corrige par defaut
+
+Le classeur porte, a l'interieur du seul document D09, trois noms de variable utilises deux fois :
+
+| Nom au classeur | Ligne | Sens | Ligne | Sens |
+|---|---|---|---|---|
+| `dateNaissance` | 13 | date de naissance de l'assure | 44 | date de naissance du beneficiaire |
+| `commune` | 14 | lieu de naissance | 20 | localite de l'adresse |
+| `pays` | 16 | pays de naissance | 18 | pays de l'adresse |
+
+Dans un `metadata` a plat, la seconde occurrence ecrase la premiere : la date de naissance du
+beneficiaire remplacerait celle de l'assure, silencieusement.
+
+**Resolution appliquee.** Desambiguisation alignee sur le fichier de reference Delos, qui avait deja
+traite ces trois cas : `beneficiaireDateNaissance`, `communeNaissance`, `paysNaissance`. Le choix est
+coherent avec les champs beneficiaire deja nommes ainsi au classeur (`beneficiaireNom`,
+`beneficiairePrenom`). Chaque renommage est trace dans `contracts/delos-contrat-champs.json` sous
+`renommeParDefaut`, avec sa raison et le statut « A VALIDER PAR LE METIER ».
+
+**A confirmer** via la colonne « Nom valide » du classeur. `ContratChampsTest` echoue si une
+collision reapparait.

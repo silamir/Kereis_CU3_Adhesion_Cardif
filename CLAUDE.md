@@ -297,6 +297,7 @@ Un score de confiance Delos à 0 vaut **donnée manquante**, pas donnée douteus
 | `CU3_Adhesion_Prevoyance_Cardif_Specifications_v4` | Les règles de gestion et critères d'acceptation. Arbitre tout conflit. |
 | `CU3_Sequence_Controles_APIs_v1.xlsx` | L'ordre des 68 étapes, les données consommées, leur document source, les inventaires d'API. Filtrer la colonne « Périmètre de build » sur « Module externe » donne les 32 étapes à construire. |
 | `CU3_IDP_Champs_Derniere_version.xlsx` | Les libellés et formats de champs. |
+| `CU3_Delos_Contrat_JSON_v1.xlsx` | **Le contrat de champs — source de vérité des documents cibles.** Une copie lisible par machine est versionnée dans `contracts/delos-contrat-champs.json`, avec l'empreinte SHA-256 du classeur ; `ContratChamps`, `CheminsExtraction` et les fixtures en dérivent tous. Ne jamais ressaisir un nom, un type, une énumération ou un caractère obligatoire à la main. |
 | `CU3_Schema_Sequence.pptx` | La lecture visuelle de la séquence, phase par phase. |
 | `.specify/memory/constitution.md` | Les invariants non négociables du module. |
 
