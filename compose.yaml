@@ -22,7 +22,12 @@ services:
     command: ["--global-response-templating", "--verbose"]
     ports: ["8081:8080"]
     volumes:
-      - ./wiremock/dms:/home/wiremock
+      # Les regles de routage d'un cote, les corps de reponse de l'autre : les
+      # corps sont les fixtures elles-memes, montees directement. Une seule
+      # copie de chaque scenario, donc aucune divergence possible entre ce que
+      # testent les tests unitaires et ce que sert la stack locale.
+      - ./wiremock/dms/mappings:/home/wiremock/mappings
+      - ./src/test/resources/fixtures/dms:/home/wiremock/__files
 
   wiremock-tahore:
     image: wiremock/wiremock:3.13.1
