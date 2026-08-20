@@ -124,6 +124,12 @@
       Generation des clients depuis les specs OpenAPI.
       Profil separe : un « mvn verify » nu doit fonctionner sans reseau.
         mvn -P generate-clients generate-sources
+
+      ATTENTION aux collisions de noms. Les specs 02 et 03 decrivent la meme
+      surface d'API Tahore et definissent trois schemas homonymes, dont
+      AssureRequete et ErreurClientReponse ont des contenus DIFFERENTS. Chaque
+      spec doit donc etre generee dans son propre package. Voir
+      contracts/README.md.
     -->
     <profile>
       <id>generate-clients</id>

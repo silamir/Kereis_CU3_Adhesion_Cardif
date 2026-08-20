@@ -35,9 +35,8 @@ Kereis_CU3_Adhesion_Cardif/
 │   ├── 01-Document-Management-Services.yaml      DMS 3.13.18 — 163 chemins
 │   ├── 02-API-DSI-SOLUTIONS-PREVOYANCE.yaml      Adhesions, avenants, personnes
 │   ├── 03-Tahore-Actes-Decisions.yaml            Actes et decisions
-│   ├── 03-Tahore-Actes-Decisions.source.json     Le JSON d'origine, conserve tel quel
 │   ├── DMS_GET_input_documents_200.json          L'entree de reference du programme
-│   └── 00-INDEX.txt                              Index des trois contrats
+│   └── README.md                                 Tri des doublons
 │
 ├── deploy/
 │   ├── README.md                   Le contrat PaaS, et ce qui manque sur PAASv3

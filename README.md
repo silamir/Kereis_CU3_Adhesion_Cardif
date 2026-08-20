@@ -35,7 +35,7 @@ docker compose up --build                   # module + DMS et Tahore simules
 ## Organisation du depot
 
 ```
-contracts/          Les 3 specifications OpenAPI et la reponse 200 de reference du DMS
+contracts/          Les 3 specifications OpenAPI, la reponse 200 de reference, et le tri des doublons
 deploy/             Cible de deploiement neutre et verification du contrat PaaS
 docs/               Documentation technique, dont docs/api/ en HTML autonome
 src/main/java/      domain (modele + ports) · application (cas d'usage) · infrastructure (adaptateurs)
