@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: tahore-document-processing
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+cu3:
+  dms:
+    base-url: ${CU3_DMS_BASE_URL:http://localhost:8081}
+    # processingStateIdList : ATTENTION, « pending_automation » des specifications
+    # CU#3 n'existe pas dans l'enumeration DMS. Valeurs reelles :
+    #   READY, PENDING_INDEXATION, PENDING_PROCESSING, BOUND, MANIPULATED,
+    #   ARCHIVED, PROCESSED, DISCARDED, REJECTED
+    etats-ecoutes:
+      - READY
+    # withoutReference : second critere du verrou anti-doublon, filtre serveur
+    seulement-non-rattaches: true
+    # limit : le DMS applique 20 par defaut, ce qui tronque sans avertir
+    limite: 200
+  tahore:
+    base-url: ${CU3_TAHORE_BASE_URL:http://localhost:8082}
+  # Parametres metier : modifiables sans recompiler (cf. § 4 stack-technique.md)
+  scan:
+    # ATTENTION : « pending_automation » des specifications CU#3 n'existe pas
+    # dans l'enumeration DMS. Valeur a trancher avec le metier / la DSI DMS.
+    etats-ecoutes:
+      - READY
+    etat-renvoi-gestionnaire: PENDING_PROCESSING
+    sla-heures: 48
+  extraction:
+    seuil-confiance-globale: 0.80
+    seuil-confiance-champ: 0.70
+
+---
+spring:
+  config:
+    activate:
+      on-profile: simulation
+logging:
+  level:
+    com.kereis.tahore: DEBUG

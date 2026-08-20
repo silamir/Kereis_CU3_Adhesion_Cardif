@@ -1,0 +1,22 @@
+{
+  "documentUuid": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+  "documentType": "QUESTIONNAIRE_SANTE_SIMPLIFIE",
+  "extraction": {
+    "engine": "DELOS",
+    "engineVersion": "1.0.0",
+    "extractedAt": "2026-08-20T09:14:22Z",
+    "pageCount": 3,
+    "handwritten": false,
+    "globalConfidence": 0.94
+  },
+  "fields": {
+    "questionnaire": {
+      "type": "QSS_SIMPLIFIE",
+      "emetteur": "CONSEILLER_BNP",
+      "manuscrit": true,
+      "recueilConsentementJoint": true,
+      "reponsePositivePresente": true
+    }
+  },
+  "anomalies": []
+}

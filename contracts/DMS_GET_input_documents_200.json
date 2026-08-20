@@ -1,0 +1,337 @@
+{
+  "count": 0,
+  "totalCount": 0,
+  "_links": {
+    "first": {
+      "href": "string",
+      "method": "string"
+    },
+    "previous": {
+      "href": "string",
+      "method": "string"
+    },
+    "next": {
+      "href": "string",
+      "method": "string"
+    },
+    "last": {
+      "href": "string",
+      "method": "string"
+    }
+  },
+  "serverRequestId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "data": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "legacyId": "201922701981001",
+      "documentType": "INPUT",
+      "createdAt": "2026-08-17T07:14:37.269Z",
+      "createdByApp": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string"
+      },
+      "createdByUser": {
+        "id": "string",
+        "name": "string"
+      },
+      "modifiedAt": "2026-08-17T07:14:37.269Z",
+      "modifiedByApp": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string"
+      },
+      "modifiedByUser": {
+        "id": "string",
+        "name": "string"
+      },
+      "archivingRequests": [
+        {
+          "context": {
+            "id": 0,
+            "name": "string"
+          },
+          "description": "string",
+          "reference": "string",
+          "requestedAt": "2026-08-17T07:14:37.269Z",
+          "requestedByApp": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string"
+          },
+          "requestedByUser": {
+            "id": "string",
+            "name": "string"
+          },
+          "processedAt": "2026-08-17T07:14:37.269Z",
+          "processedByApp": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string"
+          },
+          "processedByUser": {
+            "id": "string",
+            "name": "string"
+          },
+          "type": "DECLARATION"
+        }
+      ],
+      "archivingState": {
+        "id": "CURRENT",
+        "name": "string"
+      },
+      "associations": [
+        {
+          "source": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "sourceDocumentType": "INPUT",
+          "target": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "targetDocumentType": "INPUT",
+          "type": {
+            "id": "MERGING",
+            "name": "string"
+          }
+        }
+      ],
+      "content": {
+        "checksum": {
+          "fingerprint": "string",
+          "method": "MD5"
+        },
+        "conversionState": {
+          "id": "NO_CONVERSION",
+          "name": "string"
+        },
+        "datamatrix": {
+          "id": "string",
+          "createdAt": "2026-08-17T07:14:37.269Z",
+          "createdByApp": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string"
+          },
+          "createdByUser": {
+            "id": "string",
+            "name": "string"
+          },
+          "modifiedAt": "2026-08-17T07:14:37.269Z",
+          "modifiedByApp": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string"
+          },
+          "modifiedByUser": {
+            "id": "string",
+            "name": "string"
+          },
+          "pageCount": 0,
+          "indexation": {
+            "activity": {
+              "id": 0,
+              "name": "string"
+            },
+            "distributor": {
+              "id": 0,
+              "internalCode": 0,
+              "entity": {
+                "id": 0,
+                "internalCode": 0,
+                "name": "string"
+              },
+              "name": "string",
+              "shortName": "string"
+            },
+            "domain": {
+              "id": 0,
+              "name": "string"
+            },
+            "family": {
+              "id": 0,
+              "name": "string"
+            },
+            "insurer": {
+              "id": 0,
+              "name": "string",
+              "shortName": "string"
+            },
+            "nature": {
+              "id": 0,
+              "name": "string"
+            },
+            "reference": "string",
+            "subsidiary": {
+              "id": 0,
+              "name": "string"
+            }
+          }
+        },
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "mimeType": "string",
+        "pageCount": 0,
+        "originalFilename": "string",
+        "original": true,
+        "signed": true,
+        "readPasswordProtected": true,
+        "writePasswordProtected": true,
+        "certified": true,
+        "size": 0,
+        "uploadingState": {
+          "id": "NO_CONTENT_UPLOAD",
+          "name": "string"
+        },
+        "url": "string",
+        "virusScanningState": {
+          "id": "NO_VIRUS_SCANNING",
+          "name": "string"
+        },
+        "active": true
+      },
+      "description": "string",
+      "metadata": {},
+      "lock": {
+        "lockedAt": "2026-08-17T07:14:37.269Z",
+        "lockedByApp": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "string"
+        },
+        "lockedByUser": {
+          "id": "string",
+          "name": "string"
+        },
+        "remainingTime": 0,
+        "timeOut": 0
+      },
+      "transfers": [
+        {
+          "transferredTo": {
+            "id": "TESSI",
+            "name": "string"
+          },
+          "transferredAt": "2026-08-17T07:14:37.269Z",
+          "externalReference": "string"
+        }
+      ],
+      "binding": {
+        "boundAt": "2026-08-17T07:14:37.269Z",
+        "boundByApp": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "string"
+        },
+        "boundByUser": {
+          "id": "string",
+          "name": "string"
+        },
+        "reference": "string"
+      },
+      "events": [
+        {
+          "id": "DOCUMENT_CREATED",
+          "legacyEvent": {
+            "id": 0,
+            "name": "string"
+          },
+          "documentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "metadata": "string",
+          "name": "string",
+          "triggeredAt": "2026-08-17T07:14:37.269Z",
+          "triggeredByApp": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string"
+          },
+          "triggeredByUser": {
+            "id": "string",
+            "name": "string"
+          }
+        }
+      ],
+      "indexation": {
+        "activity": {
+          "id": 0,
+          "name": "string"
+        },
+        "cover": {
+          "id": 0,
+          "name": "string"
+        },
+        "distributor": {
+          "id": 0,
+          "internalCode": 0,
+          "entity": {
+            "id": 0,
+            "internalCode": 0,
+            "name": "string"
+          },
+          "name": "string",
+          "shortName": "string"
+        },
+        "domain": {
+          "id": 0,
+          "name": "string"
+        },
+        "family": {
+          "id": 0,
+          "name": "string"
+        },
+        "group": {
+          "id": 0,
+          "name": "string"
+        },
+        "insured": {
+          "firstName": "string",
+          "lastName": "string"
+        },
+        "insurer": {
+          "id": 0,
+          "name": "string",
+          "shortName": "string"
+        },
+        "nature": {
+          "id": 0,
+          "name": "string"
+        },
+        "reference": "string",
+        "subsidiary": {
+          "id": 0,
+          "name": "string"
+        },
+        "warranty": {
+          "id": 0,
+          "name": "string"
+        },
+        "original": true
+      },
+      "permissions": {
+        "medicalConfidentiality": true
+      },
+      "processingState": {
+        "id": "READY",
+        "name": "string"
+      },
+      "receptionOrder": 0,
+      "reception": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "createdAt": "2026-08-17T07:14:37.269Z",
+        "createdByApp": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "string"
+        },
+        "createdByUser": {
+          "id": "string",
+          "name": "string"
+        },
+        "modifiedAt": "2026-08-17T07:14:37.269Z",
+        "modifiedByApp": {
+          "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "string"
+        },
+        "modifiedByUser": {
+          "id": "string",
+          "name": "string"
+        },
+        "receivedAt": "2026-08-17T07:14:37.269Z",
+        "type": {
+          "id": "INPUT_BACK_OFFICE"
+        },
+        "order": 0
+      },
+      "sla": {
+        "deadlineDate": "2026-08-17T07:14:37.269Z",
+        "urgencyDate": "2026-08-17T07:14:37.269Z",
+        "priority": "URGENT"
+      }
+    }
+  ]
+}

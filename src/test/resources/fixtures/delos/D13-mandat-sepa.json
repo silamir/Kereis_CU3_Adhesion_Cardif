@@ -1,0 +1,21 @@
+{
+  "documentUuid": "9c858901-8a57-4791-81fe-4c455b099bc9",
+  "documentType": "MANDAT_SEPA",
+  "extraction": {
+    "engine": "DELOS",
+    "engineVersion": "1.0.0",
+    "extractedAt": "2026-08-20T09:14:22Z",
+    "pageCount": 1,
+    "handwritten": false,
+    "globalConfidence": 0.94
+  },
+  "fields": {
+    "banque": {
+      "iban": "FR7630006000011234567890189",
+      "titulaire": "Camille MARTIN",
+      "adresseTitulaire": "VALEUR_TEST",
+      "bic": "BNPAFRPPXXX"
+    }
+  },
+  "anomalies": []
+}

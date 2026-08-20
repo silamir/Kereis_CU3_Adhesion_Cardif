@@ -1,0 +1,779 @@
+<title>API DSI SOLUTIONS PREVOYANCE — contrat d'API</title>
+<meta name=viewport content='width=device-width,initial-scale=1'>
+<style>
+:root{--bg:#fbfaf7;--fg:#1c1a17;--mut:#6b6560;--brd:#e3ded6;--card:#ffffff;
+--code:#f4f1ec;--acc:#9a3412}
+:root:not([data-theme=light]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+--bg:#17161a;--fg:#e8e4dd;--mut:#9a938a;--brd:#2e2b30;--card:#1e1c21;
+--code:#232025;--acc:#e8956b}}
+:root[data-theme=dark]{--bg:#17161a;--fg:#e8e4dd;--mut:#9a938a;--brd:#2e2b30;
+--card:#1e1c21;--code:#232025;--acc:#e8956b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.65 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+h1{font:600 1.9rem/1.25 Georgia,serif;margin:0 0 .3rem;text-wrap:balance}
+h2{font:600 1.15rem/1.3 Georgia,serif;margin:2.5rem 0 .9rem;padding-bottom:.4rem;
+border-bottom:1px solid var(--brd)}
+h3{font:600 .95rem/1.3 ui-sans-serif,sans-serif;margin:1.6rem 0 .5rem;color:var(--mut);
+text-transform:uppercase;letter-spacing:.06em}
+.sub{color:var(--mut);margin:0 0 1.6rem}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.1rem;
+background:var(--card);border:1px solid var(--brd);border-radius:8px;padding:1rem 1.15rem;
+margin:0 0 2rem;font-size:.9rem}
+.meta dt{color:var(--mut)}
+.meta dd{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
+details{background:var(--card);border:1px solid var(--brd);border-radius:8px;
+margin:.5rem 0;overflow:hidden}
+details[open]{border-color:var(--acc)}
+summary{cursor:pointer;padding:.7rem .9rem;display:flex;gap:.7rem;align-items:baseline;
+list-style:none}
+summary::-webkit-details-marker{display:none}
+.verb{flex:none;font:600 .7rem/1 ui-monospace,monospace;letter-spacing:.05em;
+color:#fff;padding:.35rem .5rem;border-radius:4px;min-width:4.2rem;text-align:center}
+.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem;
+word-break:break-all}
+.somm{color:var(--mut);font-size:.85rem;margin-left:auto;flex:none;padding-left:1rem}
+.corps{padding:0 .9rem 1rem;border-top:1px solid var(--brd)}
+.corps p{margin:.8rem 0;font-size:.9rem}
+table{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.85rem}
+th{text-align:left;color:var(--mut);font-weight:600;padding:.4rem .6rem;
+border-bottom:1px solid var(--brd);white-space:nowrap}
+td{padding:.4rem .6rem;border-bottom:1px solid var(--brd);vertical-align:top}
+code{background:var(--code);padding:.12rem .35rem;border-radius:3px;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em}
+pre{background:var(--code);border:1px solid var(--brd);border-radius:6px;padding:.8rem;
+overflow-x:auto;font-size:.78rem;line-height:1.5;margin:.6rem 0}
+.tag{display:inline-block;background:var(--code);border:1px solid var(--brd);
+border-radius:99px;padding:.15rem .6rem;font-size:.75rem;color:var(--mut);margin:0 .3rem .3rem 0}
+.enum code{margin-right:.3rem}
+.note{background:var(--code);border-left:3px solid var(--acc);padding:.7rem .9rem;
+border-radius:0 6px 6px 0;margin:1.2rem 0;font-size:.88rem}
+.oblig{color:var(--acc);font-weight:600}
+nav{margin:0 0 2rem;font-size:.88rem}
+nav a{color:var(--acc);text-decoration:none;margin-right:1rem}
+nav a:hover{text-decoration:underline}
+.scroll{overflow-x:auto}
+</style>
+<div class=wrap>
+<nav><a href='./index.html'>&larr; Index des contrats</a></nav>
+<h1>API DSI SOLUTIONS PREVOYANCE</h1>
+<p class=sub>Endpoints relatifs au Système d&#x27;Information Hors Emprunteur.</p>
+<dl class=meta>
+<dt>Version</dt><dd>1.0</dd>
+<dt>OpenAPI</dt><dd>3.0.1</dd>
+<dt>Serveur</dt><dd>https://fare-ng-internal-i1.cbp-dev.com/private/open</dd>
+<dt>Serveur</dt><dd>https://fare-ng-internal-i1.cbp-dev.com/private/secure</dd>
+<dt>Serveur</dt><dd>http://localhost:9001/private/open</dd>
+<dt>Serveur</dt><dd>http://localhost:9001/private/secure</dd>
+<dt>Contact</dt><dd>gestion-contrats@kereistechnologies.com</dd>
+<dt>Endpoints</dt><dd>16 chemins, 17 opérations</dd>
+<dt>Schémas</dt><dd>50</dd>
+<dt>Fichier source</dt><dd>02-API-DSI-SOLUTIONS-PREVOYANCE.yaml</dd>
+</dl>
+<h2>Adhesions <span class=tag>9</span></h2>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/adhesions</span><span class=somm>Création</span></summary>
+<div class=corps>
+<p>Création d&#x27;une pré-adhésion (adhesion en attente)</p>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>AdhesionRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>201</code></td><td>L&#x27;adhésion</td><td><code>AdhesionReponse</code></td></tr>
+<tr><td><code>400</code></td><td>Paramètres invalides</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/adhesions/recherche</span><span class=somm>Recherche</span></summary>
+<div class=corps>
+<p>Recherche d&#x27;adhésions via des critères spécifiques dans le corps de requête</p>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>AdhesionRequeteRecherche</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>Liste d&#x27;adhésions trouvées correspondant aux critères de recherche</td><td><code>RechercheReponse</code></td></tr>
+<tr><td><code>400</code></td><td>Paramètres invalides</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/api/adhesions/{adhesionId}</span><span class=somm></span></summary>
+<div class=corps>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;adhésion</td><td><code>AdhesionReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#d97706'>PUT</span><span class=path>/api/adhesions/{adhesionId}</span><span class=somm>Modification</span></summary>
+<div class=corps>
+<p>Modification d&#x27;une adhésion</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>AdhesionRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;adhésion</td><td><code>AdhesionReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#d97706'>PUT</span><span class=path>/api/adhesions/{adhesionId}/avenantEnCours</span><span class=somm>Modification d&#x27;avenant</span></summary>
+<div class=corps>
+<p>Modification d&#x27;un avenant</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>AvenantRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;avenant</td><td><code>AvenantReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/adhesions/{adhesionId}/avenantEnCours/valider</span><span class=somm>Démarrage de l&#x27;adhésion</span></summary>
+<div class=corps>
+<p>Valider un avenant</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>ValiderRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;avenant a été validé</td><td><code>AdhesionReponse</code></td></tr>
+<tr><td><code>208</code></td><td>L&#x27;avenant est déjà validé</td><td><code>AdhesionReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/adhesions/{adhesionId}/avenants</span><span class=somm>Création avenant</span></summary>
+<div class=corps>
+<p>Création d&#x27;un avenant</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>AvenantRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>201</code></td><td>L&#x27;avenant</td><td><code>AvenantReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/api/adhesions/{adhesionId}/avenants/{avenantId}</span><span class=somm></span></summary>
+<div class=corps>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>avenantId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;avenant</td><td><code>AvenantReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/adhesions/{adhesionId}/fermer</span><span class=somm>Modification</span></summary>
+<div class=corps>
+<p>Fermeture d&#x27;une adhésion</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>FermetureRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>L&#x27;adhésion</td><td><code>AdhesionReponse</code></td></tr>
+</table></div>
+</div></details>
+<h2>Conformite adhesion <span class=tag>1</span></h2>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/api/adhesions/{adhesionId}/conformite</span><span class=somm>Consultation conformite adhesion</span></summary>
+<div class=corps>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>Indicateurs de conformite (TER, BLA, PPE, VR1, VR2, VIP, PREMIUM) et flag archived</td><td><code>ConformiteAdhesionReponse</code></td></tr>
+<tr><td><code>400</code></td><td>Parametre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Acces invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>500</code></td><td>Erreur serveur</td><td><code>ErreurServeurReponse</code></td></tr>
+</table></div>
+</div></details>
+<h2>Personnes <span class=tag>2</span></h2>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/api/personnes</span><span class=somm>Création</span></summary>
+<div class=corps>
+<p>Création d&#x27;une personne</p>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>PersonneCreationRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>201</code></td><td>La personne</td><td><code>PersonneReponse</code></td></tr>
+<tr><td><code>400</code></td><td>Paramètres invalides</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/api/personnes/{personneId}</span><span class=somm></span></summary>
+<div class=corps>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>personneId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>La personne</td><td><code>PersonneReponse</code></td></tr>
+</table></div>
+</div></details>
+<h2>Produits <span class=tag>1</span></h2>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/api/produits/{produitId}/clauses</span><span class=somm></span></summary>
+<div class=corps>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>produitId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>les clauses bénéficiaires possibles pour le produit</td><td><code>ClauseReponse</code>[]</td></tr>
+<tr><td><code>400</code></td><td>Paramètre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide, produit non autorisé</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<h2>supervision <span class=tag>4</span></h2>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/supervision</span><span class=somm></span></summary>
+<div class=corps>
+<p>accéder à la page de supervision</p>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>400</code></td><td>Bad Request</td><td>—</td></tr>
+<tr><td><code>404</code></td><td>Access Denied</td><td>—</td></tr>
+<tr><td><code>default</code></td><td>accéder à la page de supervision</td><td>—</td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/supervision/buildInfo</span><span class=somm></span></summary>
+<div class=corps>
+<p>Accède aux informations de build de Fare NG</p>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>400</code></td><td>Bad Request</td><td>—</td></tr>
+<tr><td><code>404</code></td><td>Access Denied</td><td>—</td></tr>
+<tr><td><code>default</code></td><td>Accède aux informations de build de Fare NG</td><td><code>string</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/supervision/disponibilite</span><span class=somm></span></summary>
+<div class=corps>
+<p>verifier la disponibilité de l&#x27;application fare</p>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>400</code></td><td>Bad Request</td><td>—</td></tr>
+<tr><td><code>404</code></td><td>Access Denied</td><td>—</td></tr>
+<tr><td><code>default</code></td><td>verifier la disponibilité de l&#x27;application fare</td><td>—</td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/supervision/healthCheck</span><span class=somm></span></summary>
+<div class=corps>
+<p>vérifier la santé de Fare NG</p>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>400</code></td><td>Bad Request</td><td>—</td></tr>
+<tr><td><code>404</code></td><td>Access Denied</td><td>—</td></tr>
+<tr><td><code>default</code></td><td>vérifier la santé de Fare NG</td><td>—</td></tr>
+</table></div>
+</div></details>
+<h2>Schémas <span class=tag>50</span></h2>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AdhesionCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>numero</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceAssureur</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>etat</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateCreation</code></td><td><code>string (date-time)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateOuverture</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateFermeture</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>distributeur</code></td><td><code>DistributeurReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>entite</code></td><td><code>EntiteReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>produit</code></td><td><code>ProduitReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>avenantEnCours</code></td><td><code>AvenantCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>motifFermeture</code></td><td><code>MotifFermetureReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>activite</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>souscription</code></td><td><code>SouscriptionCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>domaine</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AdhesionReponse</span><span class=somm>
+Le contrat incluant des facilitateurs :
+ - avenantEnCours :</span></summary><div class=corps>
+<p>
+Le contrat incluant des facilitateurs :
+ - avenantEnCours : l&#x27;avenant à l&#x27;instant T, quel que soit son état
+ - avenantValideEtEnCours : l&#x27;avenant valide à l&#x27;instant T
+</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>numero</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceAssureur</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>etat</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateOuverture</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateSignature</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateFermeture</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateCreation</code></td><td><code>string (date-time)</code></td><td>—</td><td></td></tr>
+<tr><td><code>motifFermeture</code></td><td><code>MotifFermetureReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>produit</code></td><td><code>ProduitReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>distributeur</code></td><td><code>DistributeurReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>entite</code></td><td><code>EntiteReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>conseiller</code></td><td><code>ConseillerReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>jourReconduction</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>moisReconduction</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>avenantEnCours</code></td><td><code>AvenantUltraCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>avenantValideEtEnCours</code></td><td><code>AvenantUltraCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>souscription</code></td><td><code>SouscriptionReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>avenants</code></td><td><code>AvenantUltraCondenseReponse</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>specifiqueAssureur</code></td><td><code>object</code></td><td>—</td><td></td></tr>
+<tr><td><code>motifFermetureId</code></td><td><code>integer (int64)</code></td><td>—</td><td>va prochainement disparaitre au profit de l&#x27;objet motifFermeture</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AdhesionRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>produit</code></td><td><code>ProduitRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>distributeur</code></td><td><code>DistributeurRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>entite</code></td><td><code>EntiteRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>conseiller</code></td><td><code>ConseillerRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>souscription</code></td><td><code>SouscriptionRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateSignature</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>specifiqueAssureur</code></td><td><code>object</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AdhesionRequeteRecherche</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>produit</code></td><td><code>ProduitRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>distributeur</code></td><td><code>DistributeurRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>assureur</code></td><td><code>AssureurRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>souscripteurOuAssure</code></td><td><code>PersonneRequeteRecherche</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceAssureur</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>pagination</code></td><td><code>PaginationRequete</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AdresseRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>ligne1</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>ligne2</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>ligne3</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>ligne4</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>codePostal</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>localite</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>paysId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AssureCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>prenom</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresse</code></td><td><code>CommunicationPostaleReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>personneId</code></td><td><code>object</code></td><td>—</td><td></td></tr>
+<tr><td><code>referentielPersonneId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>telephoneMobile</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>titreId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomUsuel</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AssureReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>formaliteSpecifique</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>profession</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>ordre</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>choixGaranties</code></td><td><code>ChoixGarantieReponse</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>personneId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>referentielPersonneId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>formuleCode</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>aReductionCouple</code></td><td><code>boolean</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AssureRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td>Référence externe, obligatoire si &#x27;id&#x27; n&#x27;est pas renseigné</td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant, obligatoire si &#x27;referenceExterne&#x27; n&#x27;est pas renseignée</td></tr>
+<tr><td><code>personneId</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant, obligatoire si &#x27;referenceExterne&#x27; n&#x27;est pas renseignée. Remplace l&#x27;ancien id.</td></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td>Référence externe, obligatoire si création par référence externe</td></tr>
+<tr><td><code>formuleCode</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>choixGaranties</code></td><td><code>ChoixGarantieRequete</code>[]</td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>aReductionCouple</code></td><td><code>boolean</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AssureurRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td>Permet de filtrer la recherche pour un assureur spécifique. En mode cloisonné (/secure), si le token contient un idCompagnie, alors la valeur fournie </td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AvenantCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateEffetDesGaranties</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>etat</code></td><td><span class=enum><code>EN_ETUDE</code> <code>VALIDE</code> <code>ABANDONNE</code></span></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>assures</code></td><td><code>AssureCondenseReponse</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AvenantReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateEffetDesGaranties</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateTarifaire</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>etat</code></td><td><span class=enum><code>EN_ETUDE</code> <code>VALIDE</code> <code>ABANDONNE</code></span></td><td>—</td><td></td></tr>
+<tr><td><code>codeCategorieComptable</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>assures</code></td><td><code>AssureReponse</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AvenantRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateEffetDesGaranties</code></td><td><code>string (date)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>assures</code></td><td><code>AssureRequete</code>[]</td><td><span class=oblig>oui</span></td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AvenantUltraCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateEffetDesGaranties</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>etat</code></td><td><span class=enum><code>EN_ETUDE</code> <code>VALIDE</code> <code>ABANDONNE</code></span></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>BeneficiaireReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>pourcentageDroit</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>personneId</code></td><td><code>object</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>BeneficiaireRequete</span><span class=somm>obligatoire lorsque beneficiairesClauseId pointe vers une cl</span></summary><div class=corps>
+<p>obligatoire lorsque beneficiairesClauseId pointe vers une clause de bénéficiaires nommés</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>pourcentageDroit</code></td><td><code>integer (int64)</code></td><td>—</td><td>selon règles du produit d&#x27;assurance.</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ChoixGarantieReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>garantieId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>deduitMadelin</code></td><td><code>boolean</code></td><td>—</td><td></td></tr>
+<tr><td><code>franchise</code></td><td><code>FranchiseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>beneficiairesClauseLibre</code></td><td><code>string</code></td><td>—</td><td>Si la garantie contient une clause libre, son texte sera repris dans le champ texteClause.</td></tr>
+<tr><td><code>texteClause</code></td><td><code>string</code></td><td>—</td><td>Si la garantie contient une clause et qu&#x27;il n&#x27;y a pas de bénéficiaires nommés, alors retourne le texte descriptif de la clause.</td></tr>
+<tr><td><code>dateLimiteGarantie</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>beneficiairesNommes</code></td><td><code>BeneficiaireReponse</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>echeancesMontantsAssures</code></td><td><code>EcheanceMontantAssure</code>[]</td><td>—</td><td>L&#x27;évolution des capitaux au fil du temps (revalorisation, dégressivité...).</td></tr>
+<tr><td><code>montantAssureSecondePeriode</code></td><td><code>number</code></td><td>—</td><td>Montant assuré de la deuxième période (IJ3 pour ITT, montant de deuxième période pour objet indemnitaire).</td></tr>
+<tr><td><code>montantAssureTroisiemePeriode</code></td><td><code>number</code></td><td>—</td><td>Montant assuré de la troisième période (IJ3 pour ITT, montant de troisième période pour objet indemnitaire).</td></tr>
+<tr><td><code>montantAssure</code></td><td><code>number</code></td><td>—</td><td>Montant assuré à la prise d&#x27;effet de l&#x27;avenant.</td></tr>
+<tr><td><code>prestationSinistreId</code></td><td><code>integer (int64)</code></td><td>—</td><td>
+        1-Capital
+        2-Rente Forfaitaire
+        3-Rente Indemnitaire
+        4-IJ Forfaitaire
+        5-IJ Indemnitaire
+</td></tr>
+<tr><td><code>beneficiairesClauseId</code></td><td><code>integer (int64)</code></td><td>—</td><td>Les valeurs valides pour beneficiairesClauseId sont disponibles via l&#x27;endpoint /api/produits/XX/clauses .
+        L&#x27;identifiant ne retourne pas le tex</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ChoixGarantieRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>garantieId</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td>selon les règles du produit d&#x27;assurance, valeurs possibles indiquées par API Produit</td></tr>
+<tr><td><code>montantAssure</code></td><td><code>number</code></td><td>—</td><td>selon les règles du produit d&#x27;assurance</td></tr>
+<tr><td><code>prestationSinistreId</code></td><td><code>integer (int64)</code></td><td>—</td><td>selon les règles du produit d&#x27;assurance</td></tr>
+<tr><td><code>beneficiairesClauseId</code></td><td><code>integer (int64)</code></td><td>—</td><td>selon les règles du produit d&#x27;assurance; nul lorsqu&#x27;implicite avec la garantie (non décès); à expliciter généralement les choix DC &amp; équiv.</td></tr>
+<tr><td><code>beneficiairesClauseLibre</code></td><td><code>string</code></td><td>—</td><td>obligatoire lorsque beneficiairesClauseId pointe vers une clause libre</td></tr>
+<tr><td><code>beneficiairesNommes</code></td><td><code>BeneficiaireRequete</code>[]</td><td>—</td><td>obligatoire lorsque beneficiairesClauseId pointe vers une clause de bénéficiaires nommés</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ClauseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>code</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>CommunicationPostaleReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>paysId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>codePostal</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresseLigne1</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresseLigne2</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresseLigne3</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresseLigne4</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>localite</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ConformiteAdhesionReponse</span><span class=somm>Reponse de conformite d&#x27;une adhesion avec indicateurs LBFT, </span></summary><div class=corps>
+<p>Reponse de conformite d&#x27;une adhesion avec indicateurs LBFT, vigilance renforcee et personne sensible.</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>adhesionId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>indicateurs</code></td><td><span class=enum><code>TER</code> <code>BLA</code> <code>PPE</code> <code>VR1</code> <code>VR2</code> <code>VIP</code> <code>PREMIUM</code></span>[]</td><td>—</td><td>Liste des indicateurs actifs pour l&#x27;adhesion</td></tr>
+<tr><td><code>archived</code></td><td><code>boolean</code></td><td>—</td><td>Indique si l&#x27;adhesion est supprimee via le processus d&#x27;archivage</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ConseillerReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>numero</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>designation</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ConseillerRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>numero</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>designation</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>DistributeurReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>codeExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>DistributeurRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>codeExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>EcheanceMontantAssure</span><span class=somm>L&#x27;évolution des capitaux au fil du temps (revalorisation, dé</span></summary><div class=corps>
+<p>L&#x27;évolution des capitaux au fil du temps (revalorisation, dégressivité...).</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>montantTtc</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>montantIndemnitaire</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>prestationRO</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateEcheance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>EntiteReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>codeExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>EntiteRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>codeExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ErreurClientReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>survenuLe</code></td><td><code>string (date-time)</code></td><td>—</td><td></td></tr>
+<tr><td><code>correlationId</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>codes</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>messages</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ErreurServeurReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>survenuLe</code></td><td><code>string (date-time)</code></td><td>—</td><td></td></tr>
+<tr><td><code>correlationId</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>codes</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>messages</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>FermetureRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateFermeture</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>motifFermetureId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>FranchiseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td>Libellé abrégé de la franchise, ex : 15/0/3 (jours maladie / jours accident / jours hospitalisation)</td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>HistoPeriodiciteReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateEffet</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>MotifFermetureReponse</span><span class=somm>1-ABANDON, 2-RESILIATION_MED, 3-RESILIATION_ASSURE, 4-RENONC</span></summary><div class=corps>
+<p>1-ABANDON, 2-RESILIATION_MED, 3-RESILIATION_ASSURE, 4-RENONCIATION_ASSURE, 5-DECES, 6-REFUS_NON_TITULAIRE_BAIL, 7-REFUS_PROFESSION_NON_ELIGIBLE, 8-ANNULATION, 9-AGE_LIMITE_DEPASSE, 10-REFUS, 11-APRES_SINISTRE, 12-FAUSSE_DECLARATION, 13-DENONCIATION_ASSUREUR, 14-RACHAT, 15-INVALIDITE_PRET, 16-TERME_ATTEINT</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PaginationReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>totalElements</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>page</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>nbElementsParPage</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PaginationRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>page</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>elementsParPage</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PeriodiciteReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateEffet</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateModificationPeriodicite</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>historique</code></td><td><code>HistoPeriodiciteReponse</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PeriodiciteRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><span class=enum><code>3</code> <code>4</code> <code>12</code> <code>9</code> <code>6</code> <code>1</code> <code>2</code> <code>7</code></span></td><td><span class=oblig>oui</span></td><td>Date à date, mensuel=3, trim=4, quadri=12, sem=9, annu=6; 
+Civil, mensuel=1, trim=2; Prime unique=7</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>personneId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>referentielPersonneId</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant unique de la personne dans le référentiel-personne, utilisé pour récupérer les résultats du contrôle Lablat.</td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>prenom</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomUsuel</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>titreId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>telephoneMobile</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresse</code></td><td><code>CommunicationPostaleReponse</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneCreationRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>departementNaissance</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>departementNaissanceInsee</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>lieuNaissance</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nationaliteId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>paysNaissanceId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>sexeId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>typePersonne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>titreId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomUsuel</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomPatronymique</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>prenom</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>telephoneMobile</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresse</code></td><td><code>AdresseRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>distributeur</code></td><td><code>DistributeurRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+<tr><td><code>prenom</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomUsuel</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>referentielPersonneId</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant unique de la personne dans le référentiel-personne, utilisé pour récupérer les résultats du contrôle Lablat.</td></tr>
+<tr><td><code>siren</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nic</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>lieuNaissance</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>departementNaissance</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomPatronymique</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>paysNaissanceId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>adresse</code></td><td><code>CommunicationPostaleReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>sexeId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>typePersonne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>telephoneMobile</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nationaliteId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>titreId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>departementNaissanceInsee</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneRequete</span><span class=somm>Une personne doit avoir soit une référence externe, soit un </span></summary><div class=corps>
+<p>Une personne doit avoir soit une référence externe, soit un identifiant.</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td>Référence externe, obligatoire si &#x27;id&#x27; n&#x27;est pas renseigné</td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant, obligatoire si &#x27;referenceExterne&#x27; n&#x27;est pas renseignée</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneRequeteRecherche</span><span class=somm>
+Le critère referenceExterne est ignoré si le nom, le prénom</span></summary><div class=corps>
+<p>
+Le critère referenceExterne est ignoré si le nom, le prénom ou la date de naissance est renseigné. Ces trois critères sont prioritaires et exclusifs.  
+</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nomUsuel</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>prenom</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>email</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>dateNaissance</code></td><td><code>string (date)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PersonneUltraCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>personneId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>referentielPersonneId</code></td><td><code>integer (int64)</code></td><td>—</td><td>Identifiant unique de la personne dans le référentiel-personne, utilisé pour récupérer les résultats du contrôle Lablat.</td></tr>
+<tr><td><code>referenceExterne</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ProduitReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>assureurCode</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>activiteComptable</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ProduitRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>RechercheReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>adhesions</code></td><td><code>AdhesionCondenseReponse</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>pageCourante</code></td><td><code>PaginationReponse</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>SouscriptionCondenseReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>souscripteur</code></td><td><code>PersonneCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>modeReglementId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>periodiciteId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>SouscriptionReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>souscripteur</code></td><td><code>PersonneUltraCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>representantLegal</code></td><td><code>PersonneUltraCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>mandataire</code></td><td><code>PersonneUltraCondenseReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>periodicite</code></td><td><code>PeriodiciteReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>modeReglementId</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>SouscriptionRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>modeReglementId</code></td><td><span class=enum><code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>5</code></span></td><td><span class=oblig>oui</span></td><td>1=Prélèvement, 2=Chèque, 3=Virement, 4=Mandat postal, 5=Carte bancaire</td></tr>
+<tr><td><code>periodicite</code></td><td><code>PeriodiciteRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>dureeCotisation</code></td><td><code>integer (int32)</code></td><td>—</td><td></td></tr>
+<tr><td><code>souscripteur</code></td><td><code>PersonneRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>debiteur</code></td><td><code>PersonneRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>representantLegal</code></td><td><code>PersonneRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>mandataire</code></td><td><code>PersonneRequete</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ValiderRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>auteur</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+</div>

@@ -1,0 +1,19 @@
+{
+  "name": "01-lot-nominal",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "01-lot-nominal"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "01-lot-nominal.json"
+  }
+}

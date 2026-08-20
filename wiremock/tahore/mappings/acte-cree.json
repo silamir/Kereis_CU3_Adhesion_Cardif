@@ -1,0 +1,26 @@
+{
+  "name": "creation-acte-201",
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/private/open/api/adhesions/[0-9]+/acte"
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": 90001,
+      "site_web": "https://tahore.invalid/actes/90001",
+      "courriersRecus": [
+        {
+          "id": 1,
+          "document": {
+            "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+          }
+        }
+      ],
+      "courriersEmis": []
+    }
+  }
+}

@@ -1,0 +1,32 @@
+# Simulation locale de la stack cible.
+# Les deux systemes amont sont remplaces par des WireMock alimentes par les
+# fixtures de src/test/resources/fixtures : aucune dependance au reseau client.
+name: cu3-module-externe
+
+services:
+  module-externe:
+    build:
+      context: .
+      args:
+        # Basculer sur base-jdk25-dhi-alpine lors du passage en integration.
+        BASE_IMAGE: eclipse-temurin:25-jre-alpine
+    ports: ["8080:8080"]
+    environment:
+      SPRING_PROFILES_ACTIVE: simulation
+      CU3_DMS_BASE_URL: http://wiremock-dms:8080
+      CU3_TAHORE_BASE_URL: http://wiremock-tahore:8080
+    depends_on: [wiremock-dms, wiremock-tahore]
+
+  wiremock-dms:
+    image: wiremock/wiremock:3.13.1
+    command: ["--global-response-templating", "--verbose"]
+    ports: ["8081:8080"]
+    volumes:
+      - ./wiremock/dms:/home/wiremock
+
+  wiremock-tahore:
+    image: wiremock/wiremock:3.13.1
+    command: ["--global-response-templating", "--verbose"]
+    ports: ["8082:8080"]
+    volumes:
+      - ./wiremock/tahore:/home/wiremock

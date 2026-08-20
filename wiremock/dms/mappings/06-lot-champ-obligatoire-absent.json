@@ -1,0 +1,19 @@
+{
+  "name": "06-lot-champ-obligatoire-absent",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "06-lot-champ-obligatoire-absent"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "06-lot-champ-obligatoire-absent.json"
+  }
+}

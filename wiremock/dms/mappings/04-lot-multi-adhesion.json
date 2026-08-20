@@ -1,0 +1,19 @@
+{
+  "name": "04-lot-multi-adhesion",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "04-lot-multi-adhesion"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "04-lot-multi-adhesion.json"
+  }
+}

@@ -1,0 +1,487 @@
+SWAGGERS KEREIS — CU#3 Adhesion Prevoyance Cardif
+==============================================================================
+
+Trois specifications OpenAPI distinctes, chacune autonome et valide.
+
+Provenance :
+  - Specs 1 et 2 : decoupees de APIs_Swaggers_DMS_Prev_Tahore.txt, qui concatenait
+    trois blocs separes par une ligne de « = ». Le 3e bloc de ce fichier etait un
+    DOUBLON strict du 2e (meme empreinte SHA-256) et n'a pas ete conserve.
+  - Spec 3 : fournie separement au format JSON, convertie en YAML pour homogeneite.
+    Le JSON d'origine est conserve dans 03-Tahore-Actes-Decisions.source.json.
+
+Tableau de synthese
+------------------------------------------------------------------------------
+Fichier                                  Lignes Endpoints  Schemas
+01-Document-Management-Services.yaml      16963      163      270
+02-API-DSI-SOLUTIONS-PREVOYANCE.yaml       1483       16       50
+03-Tahore-Actes-Decisions.yaml              441        4       17
+
+==============================================================================
+01-Document-Management-Services.yaml
+==============================================================================
+  Titre       : Document Management Services
+  Objet       : This is the documentation of the Document Management Services API (DMS API).
+  Version     : Swagger: 2.1.9 | DMS: 3.13.18   (OpenAPI 3.0.2)
+  Contact     : DSI-Document-Services@kereis.com
+  Endpoints   : 163
+  Schemas     : 270
+
+    POST   /private/open/auth                                            
+           Validating application credentials and issuing a token for the client application
+    GET    /private/open/availability                                    
+           Availability check service
+    GET    /private/open/health                                          
+           Health check service
+    POST   /private/open/refresh                                         
+           Refreshing an access token
+    GET    /private/open/supervision                                     
+           Supervision check service
+    GET    /private/secure/applications                                  
+           Listing all client applications
+    POST   /private/secure/applications                                  
+           Creating a client application configuration
+    GET    /private/secure/applications/{applicationUuid}                
+           Retrieving a client applications
+    PUT    /private/secure/applications/{applicationUuid}                
+           Updating a client application configuration
+    DELETE /private/secure/applications/{applicationUuid}                
+           Deleting an application configuration
+    GET    /private/secure/audits                                        
+           Getting all the audit logs for given filters
+    DELETE /private/secure/caches                                        
+           Clearing cache
+    GET    /private/secure/cdc/counters                                  
+           Get CDC monitoring counters
+    DELETE /private/secure/cdc/errors                                    
+           Delete all error topic messages
+    POST   /private/secure/cdc/errors/republish                          
+           Republish all errors message in initial topic : warn - all producers should be paused to republish error messages
+    GET    /private/secure/cdc/listeners-controller                      
+           Get state of the CDC listeners controller
+    POST   /private/secure/cdc/listeners-controller/pause                
+           Pause All CDC listeners
+    POST   /private/secure/cdc/listeners-controller/resume               
+           Resume All CDC listeners
+    POST   /private/secure/cdc/pause-all                                 
+           Pause All CDC listeners/producers
+    GET    /private/secure/cdc/producers-controller                      
+           Get state of the CDC producers controller
+    POST   /private/secure/cdc/producers-controller/pause                
+           Pause All CDC producers
+    POST   /private/secure/cdc/producers-controller/resume               
+           Resume All CDC producers
+    POST   /private/secure/cdc/resume-all                                
+           Resume All CDC listeners/producers
+    GET    /private/secure/i18n/{locale}                                 
+           Get all messages for locale
+    GET    /private/secure/input/documents                               
+           Listing input documents
+    POST   /private/secure/input/documents                               
+           Creating an input document
+    GET    /private/secure/input/documents/arrival/dashboard             
+           Export Input Document Arrival Dashboard
+    GET    /private/secure/input/documents/content/merge                 
+           Merging content of several input PDF and Tiff documents into one PDF file
+    POST   /private/secure/input/documents/content/merge                 
+           Merging the metadata and content of several input documents
+    GET    /private/secure/input/documents/count                         
+           Counting input documents, receptions and case references
+    GET    /private/secure/input/documents/identifiers                   
+           Listing input documents mapping
+    POST   /private/secure/input/documents/lock                          
+           Locking a list of input documents
+    POST   /private/secure/input/documents/lock/next                     
+           Automatically lock the next documents matching the search criteria
+    POST   /private/secure/input/documents/reindex                       
+           Create a reindexation request for input documents
+    GET    /private/secure/input/documents/reindex/{reindexUuid}         
+           Get a reindexation request for input documents
+    GET    /private/secure/input/documents/stock/count                   
+           Get metrics regarding unprocessed input documents
+    GET    /private/secure/input/documents/stock/dashboard               
+           Export Input Document Stock Dashboard
+    POST   /private/secure/input/documents/unlock                        
+           Unlocking a list of input documents
+    GET    /private/secure/input/documents/{documentUuid}                
+           Getting an input document
+    PUT    /private/secure/input/documents/{documentUuid}                
+           Updating an input document
+    POST   /private/secure/input/documents/{documentUuid}/anonymize      
+           Anonymizing an input document
+    GET    /private/secure/input/documents/{documentUuid}/archivingPdf   
+           Downloading an input document's properties
+    POST   /private/secure/input/documents/{documentUuid}/bind           
+           Binding an input document to a case and an application
+    POST   /private/secure/input/documents/{documentUuid}/clone          
+           Cloning an input document
+    POST   /private/secure/input/documents/{documentUuid}/close          
+           Closing an input document
+    GET    /private/secure/input/documents/{documentUuid}/comments       
+           Listing comments
+    POST   /private/secure/input/documents/{documentUuid}/comments       
+           Creating a comment
+    PUT    /private/secure/input/documents/{documentUuid}/comments/{commentUuid}
+           Updating a comment
+    DELETE /private/secure/input/documents/{documentUuid}/comments/{commentUuid}
+           Deleting a comment
+    GET    /private/secure/input/documents/{documentUuid}/content        
+           Getting input document content
+    PUT    /private/secure/input/documents/{documentUuid}/content        
+           Updating the input document content
+    GET    /private/secure/input/documents/{documentUuid}/content/annotations
+           Getting document annotations (xfdf format)
+    PUT    /private/secure/input/documents/{documentUuid}/content/annotations
+           Update document annotations (xfdf format)
+    POST   /private/secure/input/documents/{documentUuid}/content/antivirus/analyze
+           Re-analyze an input document by antivirus
+    PUT    /private/secure/input/documents/{documentUuid}/content/antivirus/status
+           Update document content antivirus status
+    GET    /private/secure/input/documents/{documentUuid}/content/download
+           Downloading the content of an input document
+    POST   /private/secure/input/documents/{documentUuid}/content/extract
+           Extraction of content of an input document
+    GET    /private/secure/input/documents/{documentUuid}/content/extractedData
+           Getting document extracted data (json format)
+    PUT    /private/secure/input/documents/{documentUuid}/content/extractedData
+           Update document extracted data (json format)
+    POST   /private/secure/input/documents/{documentUuid}/content/move   
+           Moving a document from DFS to S3 or from S3 to DFS
+    PUT    /private/secure/input/documents/{documentUuid}/content/rotate 
+           Rotating the content of an input document
+    PUT    /private/secure/input/documents/{documentUuid}/content/upload 
+           Uploading input document content
+    POST   /private/secure/input/documents/{documentUuid}/cutoff         
+           Cutting off an input document
+    POST   /private/secure/input/documents/{documentUuid}/declare        
+           Declaring an input document as a record (archive)
+    POST   /private/secure/input/documents/{documentUuid}/destroy        
+           Destroying an input document
+    GET    /private/secure/input/documents/{documentUuid}/events         
+           Listing history of all events
+    GET    /private/secure/input/documents/{documentUuid}/reception      
+           Getting the reception group of an input document
+    POST   /private/secure/input/documents/{documentUuid}/reopen         
+           Reopening a closed input document
+    POST   /private/secure/input/documents/{documentUuid}/restore        
+           Restoring a deleted input document
+    GET    /private/secure/input/documents/{documentUuid}/sla            
+           Compute SLA delays for an input document
+    POST   /private/secure/input/documents/{documentUuid}/unbind         
+           Unbinding an input document from a case and an application
+    POST   /private/secure/input/documents/{documentUuid}/uncutoff       
+           Uncutting off an input document
+    POST   /private/secure/input/documents/{documentUuid}/undeclare      
+           Undeclaring an input document from being a record (unarchive)
+    GET    /private/secure/input/documents/{documentUuid}/versions       
+           Listing version history
+    POST   /private/secure/input/documents/{documentUuid}/versions/prune 
+           Pruning the versions of the document
+    GET    /private/secure/input/documents/{documentUuid}/versions/{versionUuid}
+           Getting version information
+    DELETE /private/secure/input/documents/{documentUuid}/versions/{versionUuid}
+           Deleting a version
+    GET    /private/secure/input/documents/{documentUuid}/versions/{versionUuid}/content
+           Getting version's content
+    POST   /private/secure/input/documents/{documentUuid}/versions/{versionUuid}/revert
+           Reverting to a version
+    GET    /private/secure/input/events                                  
+           Listing events
+    POST   /private/secure/input/export                                  
+           Create a request for an export
+    GET    /private/secure/input/export/arrival/last/parquet             
+           Export Input Document Arrival
+    GET    /private/secure/input/export/documents/last/parquet           
+           Export Input Differential Document
+    GET    /private/secure/input/export/events/last/parquet              
+           Export Input Differential Event
+    GET    /private/secure/input/export/stock/last/count                 
+           Getting metrics regarding unprocessed incoming documents
+    GET    /private/secure/input/export/stock/last/parquet               
+           Export Input Document Stock
+    GET    /private/secure/input/export/{exportUuid}                     
+           Export Request Metadata
+    GET    /private/secure/input/export/{exportUuid}/parquet             
+           Export Request Parquet File
+    GET    /private/secure/input/receptions                              
+           Listing reception groups
+    POST   /private/secure/input/receptions                              
+           Creating an empty reception group
+    GET    /private/secure/input/receptions/{receptionUuid}              
+           Getting a reception group
+    DELETE /private/secure/input/receptions/{receptionUuid}              
+           Deleting a reception group
+    POST   /private/secure/jobs/execute/{jobGroup}/{jobName}             
+           Execute specific job identified by its group and name
+    GET    /private/secure/jobs/list                                     
+           Get list of scheduled jobs
+    POST   /private/secure/jobs/pause                                    
+           Pause all scheduled jobs
+    POST   /private/secure/jobs/resume                                   
+           Resume all scheduled jobs
+    GET    /private/secure/output/creationGroups                         
+           Getting a creation group
+    GET    /private/secure/output/creationGroups/{creationGroupUuid}     
+           Getting a creation group
+    POST   /private/secure/output/datamatrix                             
+           Creating a datamatrix
+    POST   /private/secure/output/datamatrix/reindex                     
+           Create a reindexation request for datamatrix
+    GET    /private/secure/output/datamatrix/reindex/{reindexUuid}       
+           Get a reindexation request for datamatrix
+    GET    /private/secure/output/datamatrix/{datamatrixUuid}            
+           Getting a datamatrix
+    PUT    /private/secure/output/datamatrix/{datamatrixUuid}            
+           Updating a datamatrix
+    DELETE /private/secure/output/datamatrix/{datamatrixUuid}            
+           Deleting a datamatrix
+    GET    /private/secure/output/documents                              
+           Listing output documents
+    POST   /private/secure/output/documents                              
+           Creating an output document
+    GET    /private/secure/output/documents/content/merge                
+           Merging content of several output PDF and Tiff documents into one PDF file
+    GET    /private/secure/output/documents/count                        
+           Counting output documents
+    GET    /private/secure/output/documents/identifiers                  
+           Listing output documents mapping
+    POST   /private/secure/output/documents/lock                         
+           Locking a list of output documents
+    POST   /private/secure/output/documents/reindex                      
+           Create a reindexation request for output documents
+    GET    /private/secure/output/documents/reindex/{reindexUuid}        
+           Get a reindexation request
+    POST   /private/secure/output/documents/unlock                       
+           Unlocking a list of output documents
+    GET    /private/secure/output/documents/{documentUuid}               
+           Getting an output document
+    PUT    /private/secure/output/documents/{documentUuid}               
+           Updating an output document
+    POST   /private/secure/output/documents/{documentUuid}/anonymize     
+           Anonymizing an output document
+    POST   /private/secure/output/documents/{documentUuid}/clone         
+           Cloning an output document
+    GET    /private/secure/output/documents/{documentUuid}/comments      
+           Listing comments
+    POST   /private/secure/output/documents/{documentUuid}/comments      
+           Creating a comment
+    PUT    /private/secure/output/documents/{documentUuid}/comments/{commentUuid}
+           Updating a comment
+    DELETE /private/secure/output/documents/{documentUuid}/comments/{commentUuid}
+           Deleting a comment
+    GET    /private/secure/output/documents/{documentUuid}/content       
+           Getting output document content
+    PUT    /private/secure/output/documents/{documentUuid}/content       
+           Updating output document content
+    PUT    /private/secure/output/documents/{documentUuid}/content/affix/{datamatrixUuid}
+           Affixing a datamatrix on an output document content
+    POST   /private/secure/output/documents/{documentUuid}/content/antivirus/analyze
+           Re-analyze an output document by antivirus
+    PUT    /private/secure/output/documents/{documentUuid}/content/antivirus/status
+           Update document content antivirus status
+    GET    /private/secure/output/documents/{documentUuid}/content/download
+           Downloading the content of an output document
+    POST   /private/secure/output/documents/{documentUuid}/content/move  
+           Moving a document from DFS to S3 or from S3 to DFS
+    PUT    /private/secure/output/documents/{documentUuid}/content/upload
+           Uploading output document content
+    POST   /private/secure/output/documents/{documentUuid}/cutoff        
+           Cutting off an output document
+    POST   /private/secure/output/documents/{documentUuid}/declare       
+           Declaring an output document as a record (archive)
+    POST   /private/secure/output/documents/{documentUuid}/destroy       
+           Destroying an output document
+    GET    /private/secure/output/documents/{documentUuid}/events        
+           Listing history of all events
+    POST   /private/secure/output/documents/{documentUuid}/restore       
+           Restoring a deleted output document
+    GET    /private/secure/output/documents/{documentUuid}/transmissions 
+           Getting the transmissions associated with an output document and all the associated output documents of these transmissions
+    POST   /private/secure/output/documents/{documentUuid}/uncutoff      
+           Uncutting off an output document
+    POST   /private/secure/output/documents/{documentUuid}/undeclare     
+           Undeclaring an output document from being a record (unarchive)
+    GET    /private/secure/output/documents/{documentUuid}/versions      
+           Lists version history
+    POST   /private/secure/output/documents/{documentUuid}/versions/prune
+           Pruning the versions of the document
+    GET    /private/secure/output/documents/{documentUuid}/versions/{versionUuid}
+           Getting version information
+    DELETE /private/secure/output/documents/{documentUuid}/versions/{versionUuid}
+           Deleting a version
+    GET    /private/secure/output/documents/{documentUuid}/versions/{versionUuid}/content
+           Getting version's content
+    POST   /private/secure/output/documents/{documentUuid}/versions/{versionUuid}/revert
+           Reverting to a version
+    POST   /private/secure/output/export                                 
+           Create a request for an export
+    GET    /private/secure/output/export/documents/last/parquet          
+           Export Output Differential Document
+    GET    /private/secure/output/export/transmissions/last/parquet      
+           Export Output Differential Transmission
+    GET    /private/secure/output/export/{exportUuid}                    
+           Export Request Metadata
+    GET    /private/secure/output/export/{exportUuid}/parquet            
+           Export Request Parquet File
+    GET    /private/secure/output/transmissions                          
+           Listing transmissions and their associated output documents
+    POST   /private/secure/output/transmissions                          
+           Creating a transmission group
+    POST   /private/secure/output/transmissions/ack                      
+           Acknowledging that list of transmissions has been sent
+    GET    /private/secure/output/transmissions/{transmissionUuid}       
+           Getting a transmission
+    PUT    /private/secure/output/transmissions/{transmissionUuid}       
+           Updating a transmission
+    POST   /private/secure/output/transmissions/{transmissionUuid}/abort 
+           Aborting a transmission
+    POST   /private/secure/output/transmissions/{transmissionUuid}/ack   
+           Acknowledging that a transmission has been sent
+    PUT    /private/secure/output/transmissions/{transmissionUuid}/add   
+           Adding an output document to a transmission group
+    POST   /private/secure/output/transmissions/{transmissionUuid}/lock  
+           Locking a transmission
+    GET    /private/secure/output/transmissions/{transmissionUuid}/printingQueue
+           Simulate printing queue calculation
+    PUT    /private/secure/output/transmissions/{transmissionUuid}/remove
+           Removing a document from a transmission group
+    POST   /private/secure/output/transmissions/{transmissionUuid}/send  
+           Sending a transmission
+    POST   /private/secure/output/transmissions/{transmissionUuid}/unlock
+           Unlocking a transmission
+    GET    /private/secure/referentials/accounts                         
+           Listing all accounts
+    GET    /private/secure/referentials/activities                       
+           Get list of activities
+    GET    /private/secure/referentials/agencies                         
+           Get list of agencies
+    GET    /private/secure/referentials/archivingContexts                
+           Get list of archiving contexts
+    GET    /private/secure/referentials/countries                        
+           Get list of countries
+    GET    /private/secure/referentials/covers                           
+           Get list of covers
+    GET    /private/secure/referentials/distributorGroups                
+           Get list of distributor groups
+    GET    /private/secure/referentials/distributors                     
+           Get list of distributors
+    GET    /private/secure/referentials/domains                          
+           Get list of domains
+    GET    /private/secure/referentials/families                         
+           Get list of families
+    GET    /private/secure/referentials/families/last/parquet            
+           Export last parquet of families referential
+    GET    /private/secure/referentials/families/parquet                 
+           Export parquet of families referential
+    GET    /private/secure/referentials/familiesAutoIndexation           
+           Get list of families auto indexation
+    GET    /private/secure/referentials/groups                           
+           Get list of groups
+    GET    /private/secure/referentials/groups/tonic                     
+           Get list of TONIC configuration group
+    GET    /private/secure/referentials/insurers                         
+           Get list of insurers
+    GET    /private/secure/referentials/natures                          
+           Get list of natures
+    GET    /private/secure/referentials/natures/last/parquet             
+           Export parquet of natures referential
+    GET    /private/secure/referentials/natures/parquet                  
+           Export parquet of natures referential
+    GET    /private/secure/referentials/operationalPerimeters            
+           Get list of operational perimeters
+    GET    /private/secure/referentials/printingQueues                   
+           Get list of printing queues from the Printing System known by DMS
+    GET    /private/secure/referentials/scanningTypes                    
+           Get list of scanning types
+    GET    /private/secure/referentials/subsidiaries                     
+           Get list of subsidiaries
+    GET    /private/secure/referentials/warranties                       
+           Get list of warranties
+    GET    /private/secure/sla                                           
+           Listing all SLAs
+    POST   /private/secure/sla                                           
+           Creating a sla configuration
+    GET    /private/secure/sla/{slaUuid}                                 
+           Retrieving a SLA configuration
+    PUT    /private/secure/sla/{slaUuid}                                 
+           Updating a SLA configuration
+    DELETE /private/secure/sla/{slaUuid}                                 
+           Deleting an SLA configuration
+
+==============================================================================
+02-API-DSI-SOLUTIONS-PREVOYANCE.yaml
+==============================================================================
+  Titre       : API DSI SOLUTIONS PREVOYANCE
+  Objet       : Endpoints relatifs au Système d'Information Hors Emprunteur.
+  Version     : 1.0   (OpenAPI 3.0.1)
+  Contact     : gestion-contrats@kereistechnologies.com
+  Serveur     : https://fare-ng-internal-i1.cbp-dev.com/private/open
+  Serveur     : https://fare-ng-internal-i1.cbp-dev.com/private/secure
+  Serveur     : http://localhost:9001/private/open
+  Serveur     : http://localhost:9001/private/secure
+  Endpoints   : 16
+  Schemas     : 50
+
+    POST   /api/adhesions                                                
+           Création
+    POST   /api/adhesions/recherche                                      
+           Recherche
+    GET    /api/adhesions/{adhesionId}                                   
+    PUT    /api/adhesions/{adhesionId}                                   
+           Modification
+    PUT    /api/adhesions/{adhesionId}/avenantEnCours                    
+           Modification d'avenant
+    POST   /api/adhesions/{adhesionId}/avenantEnCours/valider            
+           Démarrage de l'adhésion
+    POST   /api/adhesions/{adhesionId}/avenants                          
+           Création avenant
+    GET    /api/adhesions/{adhesionId}/avenants/{avenantId}              
+    GET    /api/adhesions/{adhesionId}/conformite                        
+           Consultation conformite adhesion
+    POST   /api/adhesions/{adhesionId}/fermer                            
+           Modification
+    POST   /api/personnes                                                
+           Création
+    GET    /api/personnes/{personneId}                                   
+    GET    /api/produits/{produitId}/clauses                             
+    GET    /supervision                                                  
+    GET    /supervision/buildInfo                                        
+    GET    /supervision/disponibilite                                    
+    GET    /supervision/healthCheck                                      
+
+==============================================================================
+03-Tahore-Actes-Decisions.yaml
+==============================================================================
+  Titre       : API Tahore — Actes et decisions d'adhesion
+                (titre d'origine dans la spec : « API » — precise ici pour
+                 pouvoir la distinguer des autres)
+  Objet       : Prise de décision et gestion des actes d'une adhésion.
+  Version     : 1.0   (OpenAPI 3.0.1)
+  Contact     : prev-support@kereis.com
+  Serveur     : http://localhost:8082/tahore
+  Endpoints   : 4
+  Schemas     : 17
+
+    POST   /private/open/api/adhesions/{adhesionId}/acte                 
+           Création d'un acte
+    POST   /private/open/api/adhesions/{adhesionId}/avenantEnCours/prendreDecision
+           Prise de décision
+    GET    /private/open/api/adhesions/{adhesionId}/avenants/{avenantId}/decisions
+           Consultation des décisions
+    POST   /private/open/api/adhesions/{adhesionId}/instruireApresSignature
+           Instruction après signature
+
+==============================================================================
+VISUALISATION ET USAGE
+==============================================================================
+Chaque .yaml est une spec OpenAPI autonome. Pour la lire :
+  - editor.swagger.io  : File > Import file
+  - Redocly            : npx @redocly/cli preview-docs <fichier>.yaml
+  - VS Code            : extension « OpenAPI (Swagger) Editor »
+
+Pour generer les clients Java du module externe :
+  openapi-generator-cli generate -i <fichier>.yaml -g java \
+      --library resttemplate -o target/generated-sources/<nom>
+
+C'est l'entree du generateur decrit au § 2 de docs/stack-technique.md : aucun DTO
+ne doit etre ecrit a la main.

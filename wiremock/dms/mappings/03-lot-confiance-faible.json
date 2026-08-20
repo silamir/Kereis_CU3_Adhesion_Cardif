@@ -1,0 +1,19 @@
+{
+  "name": "03-lot-confiance-faible",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "03-lot-confiance-faible"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "03-lot-confiance-faible.json"
+  }
+}

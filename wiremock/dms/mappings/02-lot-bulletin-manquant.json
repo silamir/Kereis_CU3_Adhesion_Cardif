@@ -1,0 +1,19 @@
+{
+  "name": "02-lot-bulletin-manquant",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "02-lot-bulletin-manquant"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "02-lot-bulletin-manquant.json"
+  }
+}

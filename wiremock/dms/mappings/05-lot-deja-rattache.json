@@ -1,0 +1,19 @@
+{
+  "name": "05-lot-deja-rattache",
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents",
+    "queryParameters": {
+      "scenario": {
+        "equalTo": "05-lot-deja-rattache"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "05-lot-deja-rattache.json"
+  }
+}

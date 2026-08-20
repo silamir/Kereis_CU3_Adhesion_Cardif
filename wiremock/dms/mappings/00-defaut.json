@@ -1,0 +1,15 @@
+{
+  "name": "defaut-lot-nominal",
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/private/secure/input/documents"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "01-lot-nominal.json"
+  }
+}

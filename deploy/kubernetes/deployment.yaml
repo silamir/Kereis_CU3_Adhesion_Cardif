@@ -1,0 +1,72 @@
+# Cible neutre de deploiement.
+#
+# PAASv3 a son propre format de manifeste, que nous n'avons pas encore. Ce fichier
+# ne pretend donc pas etre « le » manifeste PAASv3 : il exprime le CONTRAT que
+# toute PaaS impose a une application, et que le module doit honorer pour etre
+# portable. Voir deploy/README.md.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tahore-document-processing
+  labels: {app: tahore-document-processing}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: tahore-document-processing}
+  template:
+    metadata:
+      labels: {app: tahore-document-processing}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: application
+          image: tahore-document-processing:0.1.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: ["ALL"]}
+          # Toute la configuration passe par l'environnement : aucune valeur
+          # d'environnement n'est figee dans l'image.
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: integration
+            - name: CU3_DMS_BASE_URL
+              valueFrom: {configMapKeyRef: {name: cu3-config, key: dms-base-url}}
+            - name: CU3_TAHORE_BASE_URL
+              valueFrom: {configMapKeyRef: {name: cu3-config, key: tahore-base-url}}
+          resources:
+            requests: {cpu: "250m", memory: "512Mi"}
+            limits: {cpu: "1", memory: "1Gi"}
+          startupProbe:
+            httpGet: {path: /actuator/health/readiness, port: http}
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: {path: /actuator/health/readiness, port: http}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /actuator/health/liveness, port: http}
+            periodSeconds: 20
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tahore-document-processing
+spec:
+  selector: {app: tahore-document-processing}
+  ports:
+    - {port: 80, targetPort: http, name: http}

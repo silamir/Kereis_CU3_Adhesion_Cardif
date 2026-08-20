@@ -1,0 +1,27 @@
+{
+  "documentUuid": "1b4e28ba-2fa1-11d2-883f-0016d3cca427",
+  "documentType": "RECUEIL_CONSENTEMENT",
+  "extraction": {
+    "engine": "DELOS",
+    "engineVersion": "1.0.0",
+    "extractedAt": "2026-08-20T09:14:22Z",
+    "pageCount": 1,
+    "handwritten": false,
+    "globalConfidence": 0.94
+  },
+  "fields": {
+    "recueil": {
+      "present": true
+    },
+    "consentement": {
+      "donneesSante": true
+    },
+    "signatures": {
+      "assure": {
+        "present": true
+      },
+      "dateSignature": "2026-08-12"
+    }
+  },
+  "anomalies": []
+}

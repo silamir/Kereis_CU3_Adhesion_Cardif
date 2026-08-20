@@ -1,0 +1,271 @@
+<title>API Tahore — Actes et decisions d&#x27;adhesion — contrat d'API</title>
+<meta name=viewport content='width=device-width,initial-scale=1'>
+<style>
+:root{--bg:#fbfaf7;--fg:#1c1a17;--mut:#6b6560;--brd:#e3ded6;--card:#ffffff;
+--code:#f4f1ec;--acc:#9a3412}
+:root:not([data-theme=light]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+--bg:#17161a;--fg:#e8e4dd;--mut:#9a938a;--brd:#2e2b30;--card:#1e1c21;
+--code:#232025;--acc:#e8956b}}
+:root[data-theme=dark]{--bg:#17161a;--fg:#e8e4dd;--mut:#9a938a;--brd:#2e2b30;
+--card:#1e1c21;--code:#232025;--acc:#e8956b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.65 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem 5rem}
+h1{font:600 1.9rem/1.25 Georgia,serif;margin:0 0 .3rem;text-wrap:balance}
+h2{font:600 1.15rem/1.3 Georgia,serif;margin:2.5rem 0 .9rem;padding-bottom:.4rem;
+border-bottom:1px solid var(--brd)}
+h3{font:600 .95rem/1.3 ui-sans-serif,sans-serif;margin:1.6rem 0 .5rem;color:var(--mut);
+text-transform:uppercase;letter-spacing:.06em}
+.sub{color:var(--mut);margin:0 0 1.6rem}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.1rem;
+background:var(--card);border:1px solid var(--brd);border-radius:8px;padding:1rem 1.15rem;
+margin:0 0 2rem;font-size:.9rem}
+.meta dt{color:var(--mut)}
+.meta dd{margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
+details{background:var(--card);border:1px solid var(--brd);border-radius:8px;
+margin:.5rem 0;overflow:hidden}
+details[open]{border-color:var(--acc)}
+summary{cursor:pointer;padding:.7rem .9rem;display:flex;gap:.7rem;align-items:baseline;
+list-style:none}
+summary::-webkit-details-marker{display:none}
+.verb{flex:none;font:600 .7rem/1 ui-monospace,monospace;letter-spacing:.05em;
+color:#fff;padding:.35rem .5rem;border-radius:4px;min-width:4.2rem;text-align:center}
+.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem;
+word-break:break-all}
+.somm{color:var(--mut);font-size:.85rem;margin-left:auto;flex:none;padding-left:1rem}
+.corps{padding:0 .9rem 1rem;border-top:1px solid var(--brd)}
+.corps p{margin:.8rem 0;font-size:.9rem}
+table{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:.85rem}
+th{text-align:left;color:var(--mut);font-weight:600;padding:.4rem .6rem;
+border-bottom:1px solid var(--brd);white-space:nowrap}
+td{padding:.4rem .6rem;border-bottom:1px solid var(--brd);vertical-align:top}
+code{background:var(--code);padding:.12rem .35rem;border-radius:3px;
+font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em}
+pre{background:var(--code);border:1px solid var(--brd);border-radius:6px;padding:.8rem;
+overflow-x:auto;font-size:.78rem;line-height:1.5;margin:.6rem 0}
+.tag{display:inline-block;background:var(--code);border:1px solid var(--brd);
+border-radius:99px;padding:.15rem .6rem;font-size:.75rem;color:var(--mut);margin:0 .3rem .3rem 0}
+.enum code{margin-right:.3rem}
+.note{background:var(--code);border-left:3px solid var(--acc);padding:.7rem .9rem;
+border-radius:0 6px 6px 0;margin:1.2rem 0;font-size:.88rem}
+.oblig{color:var(--acc);font-weight:600}
+nav{margin:0 0 2rem;font-size:.88rem}
+nav a{color:var(--acc);text-decoration:none;margin-right:1rem}
+nav a:hover{text-decoration:underline}
+.scroll{overflow-x:auto}
+</style>
+<div class=wrap>
+<nav><a href='./index.html'>&larr; Index des contrats</a></nav>
+<h1>API Tahore — Actes et decisions d&#x27;adhesion</h1>
+<p class=sub>Prise de décision et gestion des actes d&#x27;une adhésion.</p>
+<dl class=meta>
+<dt>Version</dt><dd>1.0</dd>
+<dt>OpenAPI</dt><dd>3.0.1</dd>
+<dt>Serveur</dt><dd>http://localhost:8082/tahore</dd>
+<dt>Contact</dt><dd>prev-support@kereis.com</dd>
+<dt>Endpoints</dt><dd>4 chemins, 4 opérations</dd>
+<dt>Schémas</dt><dd>17</dd>
+<dt>Fichier source</dt><dd>03-Tahore-Actes-Decisions.yaml</dd>
+</dl>
+<h2>Adhesions <span class=tag>4</span></h2>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/private/open/api/adhesions/{adhesionId}/acte</span><span class=somm>Création d&#x27;un acte</span></summary>
+<div class=corps>
+<p>Création d&#x27;un acte</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>Assureur</code></td><td>header</td><td><code>string</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>ActeRequete</code></td></tr>
+<tr><td><code>multipart/form-data</code></td><td><code>object</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>201</code></td><td>indique que l&#x27;acte est créé</td><td><code>ActeReponse</code></td></tr>
+<tr><td><code>400</code></td><td>paramètre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide, produit non autorisé</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/private/open/api/adhesions/{adhesionId}/avenantEnCours/prendreDecision</span><span class=somm>Prise de décision</span></summary>
+<div class=corps>
+<p>Prise de décision sur les garanties</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>Assureur</code></td><td>header</td><td><code>string</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>PriseDecisionRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>201</code></td><td>indique que la décision est créé</td><td><code>PriseDecisionReponse</code></td></tr>
+<tr><td><code>400</code></td><td>paramètre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide, produit non autorisé</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#2563eb'>GET</span><span class=path>/private/open/api/adhesions/{adhesionId}/avenants/{avenantId}/decisions</span><span class=somm>Consultation des décisions</span></summary>
+<div class=corps>
+<p>Restitue les décisions (décisions, surprimes, exclusions et rachat) pour un avenant donné.</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>avenantId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>Assureur</code></td><td>header</td><td><code>string</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>Liste des décisions du groupe de garantie pour l&#x27;avenant</td><td><code>DecisionGarantieReponse</code>[]</td></tr>
+<tr><td><code>400</code></td><td>paramètre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide, produit non autorisé</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>404</code></td><td>Avenant non trouvé</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<details>
+<summary><span class=verb style='background:#059669'>POST</span><span class=path>/private/open/api/adhesions/{adhesionId}/instruireApresSignature</span><span class=somm>Instruction après signature</span></summary>
+<div class=corps>
+<p>Déclenche le traitement post-signature d&#x27;une adhésion</p>
+<h3>Paramètres</h3><div class=scroll><table><tr><th>Nom</th><th>Emplacement</th><th>Type</th><th>Obligatoire</th></tr>
+<tr><td><code>adhesionId</code></td><td>path</td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td></tr>
+<tr><td><code>Assureur</code></td><td>header</td><td><code>string</code></td><td><span class=oblig>oui</span></td></tr>
+</table></div>
+<h3>Corps de requête <span class=oblig>(obligatoire)</span></h3>
+<div class=scroll><table><tr><th>Media type</th><th>Schéma</th></tr>
+<tr><td><code>application/json</code></td><td><code>InstruireApresSignatureRequete</code></td></tr>
+</table></div>
+<h3>Réponses</h3><div class=scroll><table><tr><th>Code</th><th>Description</th><th>Schéma</th></tr>
+<tr><td><code>200</code></td><td>OK</td><td>—</td></tr>
+<tr><td><code>400</code></td><td>paramètre invalide</td><td><code>ErreurClientReponse</code></td></tr>
+<tr><td><code>403</code></td><td>Accès invalide, produit non autorisé</td><td><code>ErreurClientReponse</code></td></tr>
+</table></div>
+</div></details>
+<h2>Schémas <span class=tag>17</span></h2>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ActeReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>site_web</code></td><td><code>string (uri)</code></td><td>—</td><td></td></tr>
+<tr><td><code>courriersRecus</code></td><td><code>CourrierReponse</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>courriersEmis</code></td><td><code>CourrierReponse</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ActeRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>auteur</code></td><td><code>string</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>etatFinal</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>courriersAttendus</code></td><td><code>CourriersRequete</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>courriersRecus</code></td><td><code>CourriersRecuRequete</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>courriersEmis</code></td><td><code>CourriersEmisRequete</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>produit</code></td><td><code>ProduitRequete</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>AssureRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>CourrierReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>document</code></td><td><code>DocumentReponse</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>CourriersEmisRequete</span><span class=somm>Correspond aux documents sortants traités par l&#x27;application.</span></summary><div class=corps>
+<p>Correspond aux documents sortants traités par l&#x27;application.</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>nature</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>typeEmission</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>destinataire</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>partName</code></td><td><code>string</code></td><td>—</td><td>Fait référence à la part de name &#x27;partName&#x27;. Permet d&#x27;identifier le document correspondant au courrier.</td></tr>
+<tr><td><code>partNameParent</code></td><td><code>string</code></td><td>—</td><td>Si renseignée, la partNameParent indique que le courrier appartient au même lot que celui identifié par la partName correspondante. Par exemple, le co</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>CourriersRecuRequete</span><span class=somm>Correspond aux documents entrants traités par l&#x27;application.</span></summary><div class=corps>
+<p>Correspond aux documents entrants traités par l&#x27;application.</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>nature</code></td><td><code>integer (int64)</code></td><td><span class=oblig>oui</span></td><td></td></tr>
+<tr><td><code>dateSignature</code></td><td><code>string (date)</code></td><td>—</td><td>Obligatoire sur la nature =&gt; 1 : bulletin d&#x27;adhésion.</td></tr>
+<tr><td><code>partName</code></td><td><code>string</code></td><td>—</td><td>Fait référence à la part de name &#x27;partName&#x27;. Permet d&#x27;identifier le PDF correspondant au courrier.</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>CourriersRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>nature</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>DecisionGarantieReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>decision</code></td><td><code>PriseDecisionReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>garantie</code></td><td><code>GarantieReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourmillageSurprimeMedicale</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourcentageSurprimeMedicale</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourmillageSurprimeProfession</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourcentageSurprimeProfession</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourmillageSurprimeRisquesDivers</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourcentageSurprimeRisquesDivers</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>exclusionMedicale</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>exclusionRisquesDivers</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>rachatRisquesDivers</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>nbMoisAjournement</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>facteursRisquesRachetes</code></td><td><code>FacteurRisqueRacheteReponse</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>DecisionRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>garantie</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>decision</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>DocumentReponse</span><span class=somm>Représente le document GED</span></summary><div class=corps>
+<p>Représente le document GED</p>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ErreurClientReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>survenuLe</code></td><td><code>string (date-time)</code></td><td>—</td><td></td></tr>
+<tr><td><code>correlationId</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+<tr><td><code>codes</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>messages</code></td><td><code>string</code>[]</td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>FacteurRisqueRacheteReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>decision</code></td><td><code>PriseDecisionReponse</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourmillageSurprimeRisquesDivers</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>pourcentageSurprimeRisquesDivers</code></td><td><code>number</code></td><td>—</td><td></td></tr>
+<tr><td><code>exclusionRisquesDivers</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>GarantieReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>InstruireApresSignatureRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>demandeModifEnCours</code></td><td><code>string</code></td><td>—</td><td>Fait référence au type de la demande de modification en cours. Valeurs possibles : ADMINISTRATIVE.</td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PriseDecisionReponse</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+<tr><td><code>libelle</code></td><td><code>string</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>PriseDecisionRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>decisions</code></td><td><code>DecisionRequete</code>[]</td><td>—</td><td></td></tr>
+<tr><td><code>produit</code></td><td><code>ProduitRequete</code></td><td>—</td><td></td></tr>
+<tr><td><code>assure</code></td><td><code>AssureRequete</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+<details><summary><span class=verb style='background:#64748b'>TYPE</span><span class=path>ProduitRequete</span><span class=somm></span></summary><div class=corps>
+<div class=scroll><table><tr><th>Propriété</th><th>Type</th><th>Obligatoire</th><th>Description</th></tr>
+<tr><td><code>id</code></td><td><code>integer (int64)</code></td><td>—</td><td></td></tr>
+</table></div>
+</div></details>
+</div>

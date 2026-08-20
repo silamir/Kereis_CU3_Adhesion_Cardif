@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.0.7</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.kereis.tahore</groupId>
+  <artifactId>tahore-document-processing</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <name>Tahore Document Processing</name>
+  <description>Module externe CU#3 - Adhesion Prevoyance Cardif</description>
+
+  <properties>
+    <java.version>25</java.version>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <archunit.version>1.4.1</archunit.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
+    <wiremock.version>3.13.1</wiremock.version>
+    <nullaway.version>0.12.7</nullaway.version>
+    <errorprone.version>2.36.0</errorprone.version>
+    <spotless.version>2.44.5</spotless.version>
+    <openapi.generator.version>7.11.0</openapi.generator.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>${archunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
+      <version>${wiremock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Formatage impose : aucun token depense en style -->
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${spotless.version}</version>
+        <configuration>
+          <java>
+            <palantirJavaFormat/>
+            <removeUnusedImports/>
+            <importOrder><order>java,javax,jakarta,org,com,</order></importOrder>
+          </java>
+        </configuration>
+        <executions>
+          <execution>
+            <goals><goal>check</goal></goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${mapstruct.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!--
+      Generation des clients depuis les specs OpenAPI.
+      Profil separe : un « mvn verify » nu doit fonctionner sans reseau.
+        mvn -P generate-clients generate-sources
+    -->
+    <profile>
+      <id>generate-clients</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>${openapi.generator.version}</version>
+            <executions>
+              <execution>
+                <id>dms</id>
+                <goals><goal>generate</goal></goals>
+                <configuration>
+                  <inputSpec>${project.basedir}/contracts/01-Document-Management-Services.yaml</inputSpec>
+                  <generatorName>java</generatorName>
+                  <library>restclient</library>
+                  <apiPackage>com.kereis.tahore.documentprocessing.infrastructure.dms.generated.api</apiPackage>
+                  <modelPackage>com.kereis.tahore.documentprocessing.infrastructure.dms.generated.model</modelPackage>
+                  <generateApiTests>false</generateApiTests>
+                  <generateModelTests>false</generateModelTests>
+                  <configOptions>
+                    <useJakartaEe>true</useJakartaEe>
+                    <openApiNullable>false</openApiNullable>
+                  </configOptions>
+                </configuration>
+              </execution>
+              <execution>
+                <id>tahore-actes</id>
+                <goals><goal>generate</goal></goals>
+                <configuration>
+                  <inputSpec>${project.basedir}/contracts/03-Tahore-Actes-Decisions.yaml</inputSpec>
+                  <generatorName>java</generatorName>
+                  <library>restclient</library>
+                  <apiPackage>com.kereis.tahore.documentprocessing.infrastructure.tahore.generated.api</apiPackage>
+                  <modelPackage>com.kereis.tahore.documentprocessing.infrastructure.tahore.generated.model</modelPackage>
+                  <generateApiTests>false</generateApiTests>
+                  <generateModelTests>false</generateModelTests>
+                  <configOptions>
+                    <useJakartaEe>true</useJakartaEe>
+                    <openApiNullable>false</openApiNullable>
+                  </configOptions>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

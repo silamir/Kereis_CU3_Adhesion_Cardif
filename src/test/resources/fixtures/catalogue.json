@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "01-lot-nominal",
+    "description": "Les 5 pieces du perimetre, confiance 0,94. Chemin nominal.",
+    "documents": 5,
+    "lot": "REC-2026-0001"
+  },
+  {
+    "scenario": "02-lot-bulletin-manquant",
+    "description": "Pas de BULLETIN_ADHESION : controle de completude (F02) en echec.",
+    "documents": 4,
+    "lot": "REC-2026-0002"
+  },
+  {
+    "scenario": "03-lot-confiance-faible",
+    "description": "Confiance globale 0,41 sur le bulletin : sous le seuil de 0,80.",
+    "documents": 5,
+    "lot": "REC-2026-0003"
+  },
+  {
+    "scenario": "04-lot-multi-adhesion",
+    "description": "Deux bulletins dans un meme lot : renvoi au gestionnaire (PENDING_PROCESSING).",
+    "documents": 6,
+    "lot": "REC-2026-0004"
+  },
+  {
+    "scenario": "05-lot-deja-rattache",
+    "description": "binding.reference renseigne : le lot est deja traite, il doit etre ignore.",
+    "documents": 5,
+    "lot": "REC-2026-0005"
+  },
+  {
+    "scenario": "06-lot-champ-obligatoire-absent",
+    "description": "assure.dateNaissance absent du bulletin : cle omise, jamais null.",
+    "documents": 5,
+    "lot": "REC-2026-0006"
+  }
+]

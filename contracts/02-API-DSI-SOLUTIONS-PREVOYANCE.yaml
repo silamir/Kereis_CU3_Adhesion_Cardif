@@ -1,0 +1,1483 @@
+openapi: 3.0.1
+info:
+  title: API DSI SOLUTIONS PREVOYANCE
+  description: |
+    Endpoints relatifs au Système d'Information Hors Emprunteur.
+
+    Les endpoints sont accessibles en mode sécurisé ou non (secure vs open), selon les besoins et le contexte d'intégration.
+      - Un partenaire accède aux API via l'application api-gateway, qui redirige les appels vers le chemin /private/secure.
+      - Un appel interne passe par l'URL /private/open, en attendant la généralisation d'EntraId.
+
+    Mode sécurisé : les API sont cloisonnées par assureurs ou distributeurs.
+  contact:
+    name: Support
+    email: gestion-contrats@kereistechnologies.com
+  license:
+    name: CC-BY-NC-ND
+  version: "1.0"
+servers:
+- url: https://fare-ng-internal-i1.cbp-dev.com/private/open
+- url: https://fare-ng-internal-i1.cbp-dev.com/private/secure
+- url: http://localhost:9001/private/open
+- url: http://localhost:9001/private/secure
+paths:
+  /api/adhesions/{adhesionId}/avenants:
+    post:
+      tags:
+      - Adhesions
+      summary: Création avenant
+      description: Création d'un avenant
+      operationId: avenants_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Critères de création
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvenantRequete'
+        required: true
+      responses:
+        "201":
+          description: L'avenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvenantReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}:
+    get:
+      tags:
+      - Adhesions
+      operationId: consultation
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: L'adhésion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+      security:
+      - bearer: []
+    put:
+      tags:
+      - Adhesions
+      summary: Modification
+      description: Modification d'une adhésion
+      operationId: modification_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Critères de modification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhesionRequete'
+        required: true
+      responses:
+        "200":
+          description: L'adhésion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}/avenants/{avenantId}:
+    get:
+      tags:
+      - Adhesions
+      operationId: consultationAvenant
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: avenantId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: L'avenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvenantReponse'
+      security:
+      - bearer: []
+  /api/adhesions:
+    post:
+      tags:
+      - Adhesions
+      summary: Création
+      description: Création d'une pré-adhésion (adhesion en attente)
+      operationId: creation_1
+      requestBody:
+        description: Critères de création
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhesionRequete'
+        required: true
+      responses:
+        "201":
+          description: L'adhésion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+        "400":
+          description: Paramètres invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "403":
+          description: Accès invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}/fermer:
+    post:
+      tags:
+      - Adhesions
+      summary: Modification
+      description: Fermeture d'une adhésion
+      operationId: fermer_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Critères de fermeture
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FermetureRequete'
+        required: true
+      responses:
+        "200":
+          description: L'adhésion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}/avenantEnCours:
+    put:
+      tags:
+      - Adhesions
+      summary: Modification d'avenant
+      description: Modification d'un avenant
+      operationId: modificationAvenants_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Critères de création
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvenantRequete'
+        required: true
+      responses:
+        "200":
+          description: L'avenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvenantReponse'
+      security:
+      - bearer: []
+  /api/adhesions/recherche:
+    post:
+      tags:
+      - Adhesions
+      summary: Recherche
+      description: Recherche d'adhésions via des critères spécifiques dans le corps
+        de requête
+      operationId: recherche_1
+      requestBody:
+        description: "Critères de recherche des adhésions voulues, et critères de\
+          \ pagination"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhesionRequeteRecherche'
+        required: true
+      responses:
+        "200":
+          description: Liste d'adhésions trouvées correspondant aux critères de recherche
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RechercheReponse'
+        "400":
+          description: Paramètres invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "403":
+          description: Accès invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}/avenantEnCours/valider:
+    post:
+      tags:
+      - Adhesions
+      summary: Démarrage de l'adhésion
+      description: Valider un avenant
+      operationId: valider_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Critères de validation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValiderRequete'
+        required: true
+      responses:
+        "200":
+          description: L'avenant a été validé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+        "208":
+          description: L'avenant est déjà validé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhesionReponse'
+      security:
+      - bearer: []
+  /api/adhesions/{adhesionId}/conformite:
+    get:
+      tags:
+      - Conformite adhesion
+      summary: Consultation conformite adhesion
+      operationId: consultation_1
+      parameters:
+      - name: adhesionId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "Indicateurs de conformite (TER, BLA, PPE, VR1, VR2, VIP, PREMIUM)\
+            \ et flag archived"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConformiteAdhesionReponse'
+        "400":
+          description: Parametre invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "403":
+          description: Acces invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "500":
+          description: Erreur serveur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurServeurReponse'
+      security:
+      - bearer: []
+  /api/personnes/{personneId}:
+    get:
+      tags:
+      - Personnes
+      operationId: consultation_2
+      parameters:
+      - name: personneId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: La personne
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonneReponse'
+      security:
+      - bearer: []
+  /api/personnes:
+    post:
+      tags:
+      - Personnes
+      summary: Création
+      description: Création d'une personne
+      operationId: creation_2
+      requestBody:
+        description: Critères de création
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonneCreationRequete'
+        required: true
+      responses:
+        "201":
+          description: La personne
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonneReponse'
+        "400":
+          description: Paramètres invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "403":
+          description: Accès invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+      security:
+      - bearer: []
+  /api/produits/{produitId}/clauses:
+    get:
+      tags:
+      - Produits
+      operationId: clauses
+      parameters:
+      - name: produitId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: les clauses bénéficiaires possibles pour le produit
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClauseReponse'
+        "400":
+          description: Paramètre invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+        "403":
+          description: "Accès invalide, produit non autorisé"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErreurClientReponse'
+      security:
+      - bearer: []
+  /supervision/buildInfo:
+    get:
+      tags:
+      - supervision
+      description: Accède aux informations de build de Fare NG
+      operationId: buildInfo
+      responses:
+        default:
+          description: Accède aux informations de build de Fare NG
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Access Denied
+  /supervision/disponibilite:
+    get:
+      tags:
+      - supervision
+      description: verifier la disponibilité de l'application fare
+      operationId: disponibilite
+      responses:
+        default:
+          description: verifier la disponibilité de l'application fare
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Access Denied
+  /supervision/healthCheck:
+    get:
+      tags:
+      - supervision
+      description: vérifier la santé de Fare NG
+      operationId: healthCheck
+      responses:
+        default:
+          description: vérifier la santé de Fare NG
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Access Denied
+  /supervision:
+    get:
+      tags:
+      - supervision
+      description: accéder à la page de supervision
+      operationId: index
+      responses:
+        default:
+          description: accéder à la page de supervision
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Access Denied
+components:
+  schemas:
+    AssureRequete:
+      required:
+      - choixGaranties
+      type: object
+      properties:
+        referenceExterne:
+          type: string
+          description: "Référence externe, obligatoire si 'id' n'est pas renseigné"
+        id:
+          type: integer
+          description: "Identifiant, obligatoire si 'referenceExterne' n'est pas renseigné\
+            e"
+          format: int64
+          deprecated: true
+        personneId:
+          type: integer
+          description: "Identifiant, obligatoire si 'referenceExterne' n'est pas renseigné\
+            e. Remplace l'ancien id."
+          format: int64
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          description: "Référence externe, obligatoire si création par référence externe"
+          format: date
+        formuleCode:
+          type: string
+        choixGaranties:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChoixGarantieRequete'
+        aReductionCouple:
+          type: boolean
+    AvenantRequete:
+      required:
+      - assures
+      - dateEffetDesGaranties
+      type: object
+      properties:
+        dateEffetDesGaranties:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        assures:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssureRequete'
+    BeneficiaireRequete:
+      required:
+      - referenceExterne
+      type: object
+      properties:
+        referenceExterne:
+          type: string
+        pourcentageDroit:
+          type: integer
+          description: selon règles du produit d'assurance.
+          format: int64
+      description: obligatoire lorsque beneficiairesClauseId pointe vers une clause
+        de bénéficiaires nommés
+    ChoixGarantieRequete:
+      required:
+      - garantieId
+      type: object
+      properties:
+        garantieId:
+          type: integer
+          description: "selon les règles du produit d'assurance, valeurs possibles\
+            \ indiquées par API Produit"
+          format: int64
+        montantAssure:
+          type: number
+          description: selon les règles du produit d'assurance
+        prestationSinistreId:
+          type: integer
+          description: selon les règles du produit d'assurance
+          format: int64
+        beneficiairesClauseId:
+          type: integer
+          description: selon les règles du produit d'assurance; nul lorsqu'implicite
+            avec la garantie (non décès); à expliciter généralement les choix DC &
+            équiv.
+          format: int64
+        beneficiairesClauseLibre:
+          type: string
+          description: obligatoire lorsque beneficiairesClauseId pointe vers une clause
+            libre
+        beneficiairesNommes:
+          type: array
+          description: obligatoire lorsque beneficiairesClauseId pointe vers une clause
+            de bénéficiaires nommés
+          items:
+            $ref: '#/components/schemas/BeneficiaireRequete'
+    AssureReponse:
+      type: object
+      properties:
+        formaliteSpecifique:
+          type: string
+        profession:
+          type: string
+        ordre:
+          type: integer
+          format: int32
+        referenceExterne:
+          type: string
+        id:
+          type: integer
+          format: int64
+        choixGaranties:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ChoixGarantieReponse'
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        personneId:
+          type: integer
+          format: int64
+        referentielPersonneId:
+          type: integer
+          format: int64
+        formuleCode:
+          type: string
+        aReductionCouple:
+          type: boolean
+    AvenantReponse:
+      type: object
+      properties:
+        dateEffetDesGaranties:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateTarifaire:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        etat:
+          type: string
+          enum:
+          - EN_ETUDE
+          - VALIDE
+          - ABANDONNE
+        codeCategorieComptable:
+          type: string
+        id:
+          type: integer
+          format: int64
+        assures:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AssureReponse'
+    BeneficiaireReponse:
+      type: object
+      properties:
+        pourcentageDroit:
+          type: integer
+          format: int64
+        personneId:
+          type: object
+        referenceExterne:
+          type: string
+    ChoixGarantieReponse:
+      type: object
+      properties:
+        garantieId:
+          type: integer
+          format: int64
+        deduitMadelin:
+          type: boolean
+        franchise:
+          $ref: '#/components/schemas/FranchiseReponse'
+        beneficiairesClauseLibre:
+          type: string
+          description: "Si la garantie contient une clause libre, son texte sera repris\
+            \ dans le champ texteClause."
+          deprecated: true
+        texteClause:
+          type: string
+          description: "Si la garantie contient une clause et qu'il n'y a pas de bé\
+            néficiaires nommés, alors retourne le texte descriptif de la clause."
+        dateLimiteGarantie:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        beneficiairesNommes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BeneficiaireReponse'
+        echeancesMontantsAssures:
+          uniqueItems: true
+          type: array
+          description: "L'évolution des capitaux au fil du temps (revalorisation,\
+            \ dégressivité...)."
+          items:
+            $ref: '#/components/schemas/EcheanceMontantAssure'
+        montantAssureSecondePeriode:
+          type: number
+          description: "Montant assuré de la deuxième période (IJ3 pour ITT, montant\
+            \ de deuxième période pour objet indemnitaire)."
+        montantAssureTroisiemePeriode:
+          type: number
+          description: "Montant assuré de la troisième période (IJ3 pour ITT, montant\
+            \ de troisième période pour objet indemnitaire)."
+        montantAssure:
+          type: number
+          description: Montant assuré à la prise d'effet de l'avenant.
+        prestationSinistreId:
+          type: integer
+          description: |2
+
+                    1-Capital
+                    2-Rente Forfaitaire
+                    3-Rente Indemnitaire
+                    4-IJ Forfaitaire
+                    5-IJ Indemnitaire
+          format: int64
+        beneficiairesClauseId:
+          type: integer
+          description: "Les valeurs valides pour beneficiairesClauseId sont disponibles\
+            \ via l'endpoint /api/produits/XX/clauses .\n        L'identifiant ne\
+            \ retourne pas le texte de la clause mais sa catégorie (standard, désigné\
+            e...) "
+          format: int64
+    EcheanceMontantAssure:
+      type: object
+      properties:
+        montantTtc:
+          type: number
+        montantIndemnitaire:
+          type: number
+        prestationRO:
+          type: string
+        dateEcheance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+      description: "L'évolution des capitaux au fil du temps (revalorisation, dégressivité\
+        ...)."
+    FranchiseReponse:
+      type: object
+      properties:
+        libelle:
+          type: string
+          description: "Libellé abrégé de la franchise, ex : 15/0/3 (jours maladie\
+            \ / jours accident / jours hospitalisation)"
+        id:
+          type: integer
+          format: int64
+    AdhesionReponse:
+      type: object
+      properties:
+        numero:
+          type: string
+        referenceAssureur:
+          type: string
+        etat:
+          type: string
+        dateOuverture:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateSignature:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateFermeture:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateCreation:
+          type: string
+          format: date-time
+        motifFermeture:
+          $ref: '#/components/schemas/MotifFermetureReponse'
+        produit:
+          $ref: '#/components/schemas/ProduitReponse'
+        distributeur:
+          $ref: '#/components/schemas/DistributeurReponse'
+        entite:
+          $ref: '#/components/schemas/EntiteReponse'
+        conseiller:
+          $ref: '#/components/schemas/ConseillerReponse'
+        jourReconduction:
+          type: integer
+          format: int32
+        moisReconduction:
+          type: integer
+          format: int32
+        avenantEnCours:
+          $ref: '#/components/schemas/AvenantUltraCondenseReponse'
+        avenantValideEtEnCours:
+          $ref: '#/components/schemas/AvenantUltraCondenseReponse'
+        id:
+          type: integer
+          format: int64
+        souscription:
+          $ref: '#/components/schemas/SouscriptionReponse'
+        avenants:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AvenantUltraCondenseReponse'
+        specifiqueAssureur:
+          type: object
+          additionalProperties:
+            type: object
+        motifFermetureId:
+          type: integer
+          description: va prochainement disparaitre au profit de l'objet motifFermeture
+          format: int64
+          deprecated: true
+      description: |2
+
+        Le contrat incluant des facilitateurs :
+         - avenantEnCours : l'avenant à l'instant T, quel que soit son état
+         - avenantValideEtEnCours : l'avenant valide à l'instant T
+    AvenantUltraCondenseReponse:
+      type: object
+      properties:
+        dateEffetDesGaranties:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        etat:
+          type: string
+          enum:
+          - EN_ETUDE
+          - VALIDE
+          - ABANDONNE
+        id:
+          type: integer
+          format: int64
+    ConseillerReponse:
+      type: object
+      properties:
+        numero:
+          type: string
+        email:
+          type: string
+        designation:
+          type: string
+    DistributeurReponse:
+      type: object
+      properties:
+        libelle:
+          type: string
+        id:
+          type: integer
+          format: int64
+        codeExterne:
+          type: string
+    EntiteReponse:
+      type: object
+      properties:
+        codeExterne:
+          type: string
+        libelle:
+          type: string
+        id:
+          type: integer
+          format: int64
+    HistoPeriodiciteReponse:
+      type: object
+      properties:
+        dateEffet:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        id:
+          type: integer
+          format: int64
+    MotifFermetureReponse:
+      type: object
+      properties:
+        libelle:
+          type: string
+        id:
+          type: integer
+          format: int64
+      description: "1-ABANDON, 2-RESILIATION_MED, 3-RESILIATION_ASSURE, 4-RENONCIATION_ASSURE,\
+        \ 5-DECES, 6-REFUS_NON_TITULAIRE_BAIL, 7-REFUS_PROFESSION_NON_ELIGIBLE, 8-ANNULATION,\
+        \ 9-AGE_LIMITE_DEPASSE, 10-REFUS, 11-APRES_SINISTRE, 12-FAUSSE_DECLARATION,\
+        \ 13-DENONCIATION_ASSUREUR, 14-RACHAT, 15-INVALIDITE_PRET, 16-TERME_ATTEINT"
+    PeriodiciteReponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dateEffet:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateModificationPeriodicite:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        historique:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoPeriodiciteReponse'
+    PersonneUltraCondenseReponse:
+      type: object
+      properties:
+        personneId:
+          type: integer
+          format: int64
+        referentielPersonneId:
+          type: integer
+          description: "Identifiant unique de la personne dans le référentiel-personne,\
+            \ utilisé pour récupérer les résultats du contrôle Lablat."
+          format: int64
+        referenceExterne:
+          type: string
+    ProduitReponse:
+      type: object
+      properties:
+        libelle:
+          type: string
+        assureurCode:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        activiteComptable:
+          type: integer
+          format: int32
+    SouscriptionReponse:
+      type: object
+      properties:
+        souscripteur:
+          $ref: '#/components/schemas/PersonneUltraCondenseReponse'
+        representantLegal:
+          $ref: '#/components/schemas/PersonneUltraCondenseReponse'
+        mandataire:
+          $ref: '#/components/schemas/PersonneUltraCondenseReponse'
+        periodicite:
+          $ref: '#/components/schemas/PeriodiciteReponse'
+        modeReglementId:
+          type: integer
+          format: int64
+    AdhesionRequete:
+      required:
+      - distributeur
+      - entite
+      - produit
+      type: object
+      properties:
+        produit:
+          $ref: '#/components/schemas/ProduitRequete'
+        distributeur:
+          $ref: '#/components/schemas/DistributeurRequete'
+        entite:
+          $ref: '#/components/schemas/EntiteRequete'
+        conseiller:
+          $ref: '#/components/schemas/ConseillerRequete'
+        souscription:
+          $ref: '#/components/schemas/SouscriptionRequete'
+        dateSignature:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        specifiqueAssureur:
+          type: object
+          additionalProperties:
+            type: object
+    ConseillerRequete:
+      type: object
+      properties:
+        numero:
+          type: string
+        email:
+          type: string
+        designation:
+          type: string
+    DistributeurRequete:
+      type: object
+      properties:
+        codeExterne:
+          type: string
+    EntiteRequete:
+      type: object
+      properties:
+        codeExterne:
+          type: string
+    PeriodiciteRequete:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Date à date, mensuel=3, trim=4, quadri=12, sem=9, annu=6;\
+            \ \nCivil, mensuel=1, trim=2; Prime unique=7"
+          format: int64
+          enum:
+          - 3
+          - 4
+          - 12
+          - 9
+          - 6
+          - 1
+          - 2
+          - 7
+    PersonneRequete:
+      type: object
+      properties:
+        referenceExterne:
+          type: string
+          description: "Référence externe, obligatoire si 'id' n'est pas renseigné"
+        id:
+          type: integer
+          description: "Identifiant, obligatoire si 'referenceExterne' n'est pas renseigné\
+            e"
+          format: int64
+      description: "Une personne doit avoir soit une référence externe, soit un identifiant."
+      oneOf:
+      - $ref: '#/components/schemas/PersonneRequete'
+    ProduitRequete:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    SouscriptionRequete:
+      required:
+      - modeReglementId
+      - souscripteur
+      type: object
+      properties:
+        modeReglementId:
+          type: integer
+          description: "1=Prélèvement, 2=Chèque, 3=Virement, 4=Mandat postal, 5=Carte\
+            \ bancaire"
+          format: int64
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+        periodicite:
+          $ref: '#/components/schemas/PeriodiciteRequete'
+        dureeCotisation:
+          type: integer
+          format: int32
+        souscripteur:
+          $ref: '#/components/schemas/PersonneRequete'
+        debiteur:
+          $ref: '#/components/schemas/PersonneRequete'
+        representantLegal:
+          $ref: '#/components/schemas/PersonneRequete'
+        mandataire:
+          $ref: '#/components/schemas/PersonneRequete'
+    ErreurClientReponse:
+      type: object
+      properties:
+        survenuLe:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+        codes:
+          type: array
+          items:
+            type: string
+        messages:
+          type: array
+          items:
+            type: string
+    FermetureRequete:
+      type: object
+      properties:
+        dateFermeture:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        motifFermetureId:
+          type: integer
+          format: int64
+    AdhesionRequeteRecherche:
+      type: object
+      properties:
+        produit:
+          $ref: '#/components/schemas/ProduitRequete'
+        distributeur:
+          $ref: '#/components/schemas/DistributeurRequete'
+        assureur:
+          $ref: '#/components/schemas/AssureurRequete'
+        souscripteurOuAssure:
+          $ref: '#/components/schemas/PersonneRequeteRecherche'
+        referenceAssureur:
+          type: string
+        pagination:
+          $ref: '#/components/schemas/PaginationRequete'
+    AssureurRequete:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Permet de filtrer la recherche pour un assureur spécifique.\
+            \ En mode cloisonné (/secure), si le token contient un idCompagnie, alors\
+            \ la valeur fournie dans le paramètre doit être identique à celle du token."
+          format: int64
+    PaginationRequete:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        elementsParPage:
+          type: integer
+          format: int32
+    PersonneRequeteRecherche:
+      type: object
+      properties:
+        referenceExterne:
+          type: string
+        nomUsuel:
+          type: string
+        prenom:
+          type: string
+        email:
+          type: string
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+      description: "\nLe critère referenceExterne est ignoré si le nom, le prénom\
+        \ ou la date de naissance est renseigné. Ces trois critères sont prioritaires\
+        \ et exclusifs.  \n"
+    AdhesionCondenseReponse:
+      type: object
+      properties:
+        numero:
+          type: string
+        referenceAssureur:
+          type: string
+        etat:
+          type: string
+        dateCreation:
+          type: string
+          format: date-time
+        dateOuverture:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        dateFermeture:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        distributeur:
+          $ref: '#/components/schemas/DistributeurReponse'
+        entite:
+          $ref: '#/components/schemas/EntiteReponse'
+        produit:
+          $ref: '#/components/schemas/ProduitReponse'
+        avenantEnCours:
+          $ref: '#/components/schemas/AvenantCondenseReponse'
+        motifFermeture:
+          $ref: '#/components/schemas/MotifFermetureReponse'
+        activite:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        souscription:
+          $ref: '#/components/schemas/SouscriptionCondenseReponse'
+        domaine:
+          type: integer
+          format: int32
+    AssureCondenseReponse:
+      type: object
+      properties:
+        referenceExterne:
+          type: string
+        prenom:
+          type: string
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        adresse:
+          $ref: '#/components/schemas/CommunicationPostaleReponse'
+        personneId:
+          type: object
+        referentielPersonneId:
+          type: integer
+          format: int64
+        email:
+          type: string
+        telephoneMobile:
+          type: string
+        titreId:
+          type: integer
+          format: int64
+        nomUsuel:
+          type: string
+    AvenantCondenseReponse:
+      type: object
+      properties:
+        dateEffetDesGaranties:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        etat:
+          type: string
+          enum:
+          - EN_ETUDE
+          - VALIDE
+          - ABANDONNE
+        id:
+          type: integer
+          format: int64
+        assures:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AssureCondenseReponse'
+    CommunicationPostaleReponse:
+      type: object
+      properties:
+        paysId:
+          type: integer
+          format: int64
+        codePostal:
+          type: string
+        adresseLigne1:
+          type: string
+        adresseLigne2:
+          type: string
+        adresseLigne3:
+          type: string
+        adresseLigne4:
+          type: string
+        localite:
+          type: string
+    PaginationReponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        nbElementsParPage:
+          type: integer
+          format: int32
+    PersonneCondenseReponse:
+      type: object
+      properties:
+        personneId:
+          type: integer
+          format: int64
+        referentielPersonneId:
+          type: integer
+          description: "Identifiant unique de la personne dans le référentiel-personne,\
+            \ utilisé pour récupérer les résultats du contrôle Lablat."
+          format: int64
+        referenceExterne:
+          type: string
+        prenom:
+          type: string
+        nomUsuel:
+          type: string
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        titreId:
+          type: integer
+          format: int64
+        telephoneMobile:
+          type: string
+        email:
+          type: string
+        adresse:
+          $ref: '#/components/schemas/CommunicationPostaleReponse'
+    RechercheReponse:
+      type: object
+      properties:
+        adhesions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdhesionCondenseReponse'
+        pageCourante:
+          $ref: '#/components/schemas/PaginationReponse'
+    SouscriptionCondenseReponse:
+      type: object
+      properties:
+        souscripteur:
+          $ref: '#/components/schemas/PersonneCondenseReponse'
+        modeReglementId:
+          type: integer
+          format: int64
+        periodiciteId:
+          type: integer
+          format: int64
+    ValiderRequete:
+      type: object
+      properties:
+        auteur:
+          type: string
+    ConformiteAdhesionReponse:
+      type: object
+      properties:
+        adhesionId:
+          type: integer
+          format: int64
+        indicateurs:
+          type: array
+          description: Liste des indicateurs actifs pour l'adhesion
+          items:
+            type: string
+            description: Code indicateur de conformite
+            enum:
+            - TER
+            - BLA
+            - PPE
+            - VR1
+            - VR2
+            - VIP
+            - PREMIUM
+        archived:
+          type: boolean
+          description: Indique si l'adhesion est supprimee via le processus d'archivage
+      description: "Reponse de conformite d'une adhesion avec indicateurs LBFT, vigilance\
+        \ renforcee et personne sensible."
+    ErreurServeurReponse:
+      type: object
+      properties:
+        survenuLe:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+        codes:
+          type: array
+          items:
+            type: string
+        messages:
+          type: array
+          items:
+            type: string
+    PersonneReponse:
+      type: object
+      properties:
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        prenom:
+          type: string
+        nomUsuel:
+          type: string
+        email:
+          type: string
+        referentielPersonneId:
+          type: integer
+          description: "Identifiant unique de la personne dans le référentiel-personne,\
+            \ utilisé pour récupérer les résultats du contrôle Lablat."
+          format: int64
+        siren:
+          type: string
+        nic:
+          type: string
+        id:
+          type: integer
+          format: int64
+        lieuNaissance:
+          type: string
+        departementNaissance:
+          type: string
+        nomPatronymique:
+          type: string
+        paysNaissanceId:
+          type: integer
+          format: int64
+        adresse:
+          $ref: '#/components/schemas/CommunicationPostaleReponse'
+        sexeId:
+          type: integer
+          format: int64
+        typePersonne:
+          type: string
+        telephoneMobile:
+          type: string
+        nationaliteId:
+          type: integer
+          format: int64
+        titreId:
+          type: integer
+          format: int64
+        departementNaissanceInsee:
+          type: string
+        referenceExterne:
+          type: string
+    AdresseRequete:
+      type: object
+      properties:
+        ligne1:
+          type: string
+        ligne2:
+          type: string
+        ligne3:
+          type: string
+        ligne4:
+          type: string
+        codePostal:
+          type: string
+        localite:
+          type: string
+        paysId:
+          type: integer
+          format: int64
+    PersonneCreationRequete:
+      required:
+      - adresse
+      - distributeur
+      type: object
+      properties:
+        dateNaissance:
+          pattern: yyyy-MM-dd
+          type: string
+          format: date
+        departementNaissance:
+          type: string
+        departementNaissanceInsee:
+          type: string
+        lieuNaissance:
+          type: string
+        nationaliteId:
+          type: integer
+          format: int64
+        paysNaissanceId:
+          type: integer
+          format: int64
+        sexeId:
+          type: integer
+          format: int64
+        typePersonne:
+          type: string
+        titreId:
+          type: integer
+          format: int64
+        nomUsuel:
+          type: string
+        nomPatronymique:
+          type: string
+        prenom:
+          type: string
+        email:
+          type: string
+        telephoneMobile:
+          type: string
+        adresse:
+          $ref: '#/components/schemas/AdresseRequete'
+        distributeur:
+          $ref: '#/components/schemas/DistributeurRequete'
+        referenceExterne:
+          type: string
+    ClauseReponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+  securitySchemes:
+    bearer:
+      type: apiKey
+      description: "Actuellement sur l'endpoint /private/secure/**, le token Keycloak\
+        \ est obligatoire et permet de restreindre l'accès aux actions en fonction\
+        \ de l’assureur."
+      name: Authorization
+      in: header
